@@ -1,0 +1,24 @@
+Family #1:
+Mom's name is Lisa, she likes Action movies.
+Dad's name is Dave, he likes Baseball.
+Son's name is Jack, he loves Manifest show.
+Daughter's name is Madeline, she loves Mountain climbing.
+
+Family #2:
+Mom's name is Rose, she likes Action movies.
+Dad's name is Bub, he likes Baseball.
+Son's name is Gandalf, he loves Manifest show.
+Daughter's name is Mory, she loves Mountain climbing.
+
+
+Family #3:
+Mom's name is Lola, she likes Action movies.
+Dad's name is Mona, he likes Baseball.
+Son's name is Trin, he loves Manifest show.
+Daughter's name is Molvan, she loves Mountain climbing.
+
+Family #4:
+Mom's name is Nat, she likes Action movies.
+Dad's name is Bach, he likes Baseball.
+Son's name is Var, he loves Manifest show.
+Daughter's name is Lam, she loves Mountain climbing.
