@@ -1,5 +1,8 @@
 #include <stdio.h>
-
+/*
+    casting exercise showing its issues with byte ordering
+    the sizeof operator determines the num of bytes used by the object
+*/
 typedef unsigned char * byte_pointer;
 
 void show_bytes(byte_pointer start, size_t len){
@@ -13,7 +16,34 @@ void show_bytes(byte_pointer start, size_t len){
 }
 
 void show_int(int x){
-    show_bytes((byte_pointer) &x, sizeof(int));
+    show_bytes((byte_pointer) &x, sizeof(int)); // cast makes compiler consider the pointer to a sequence of bytes rather than to an obj of the original data type
 }
 
-void show_float
+void show_float(float x){
+    show_bytes((byte_pointer) &x, sizeof(float));
+}
+
+void show_pointer(void *x){
+    show_bytes((byte_pointer) &x, sizeof(void *));
+}
+
+void test_show_bytes(int val){
+    int ival = val;
+    float fval = (float) ival;
+    int *pval = &ival;
+    show_int(ival);
+    show_float(fval);
+    show_pointer(pval);
+
+}
+
+int main(){
+    int a = 0x0027C8F8;
+    float b = 3510593.0;
+
+    printf("%d %.6f", a, b);
+
+    show_float(b);
+    
+    return 0;
+}
