@@ -38,12 +38,8 @@ void test_show_bytes(int val){
 }
 
 int main(){
-    int a = 0x0027C8F8;
-    float b = 3510593.0;
-
-    printf("%d %.6f", a, b);
-
-    show_float(b);
+    
+    show_bytes("tesp", 5);
     
     return 0;
 }
