@@ -11,13 +11,26 @@ int uadd_ok(unsigned x, unsigned y){
     return 1;
 }
 
+// determines whether signed integers (2s complements) can be added w/o overflow
+int tadd_ok(int x, int y){
+    int sum = x + y;
+
+    if(x > 0 && y > 0 && sum <= 0){
+        return 1;
+    } else if(x < 0 && y < 0 && sum >= 0){
+        return 2;
+    }
+
+    return 0;
+}
 
 int main(){
 
-    int overflow = uadd_ok(__UINT32_MAX__, 1);
+    int overflow = tadd_ok(__INT_MAX__, __INT_MAX__);
+    int overflow2 = tadd_ok(-__INT_MAX__, -__INT_MAX__);
     int ok = uadd_ok(0, 0);
 
-    printf("%d %d", overflow, ok);
+    printf("%d %d %d", overflow, overflow2, ok);
 
     return 0;
 }
