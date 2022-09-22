@@ -1,0 +1,23 @@
+#! /bin/bash
+
+TEMPFILE=/tmp/$USER$$
+find $* -type f > $TEMPFILE 2>/dev/null
+
+depth=2 # let us start at depth 2
+# check whether there are files at this depth, if so, increase depth
+while [ `cut -f$depth -d/ $TEMPFILE | grep -v '^$' | wc -l` -gt 0 ] 
+do
+	((depth=$depth+1))
+done
+
+# go back to previous depth level
+((depth=$depth-1))
+echo Max depth = $depth
+
+# get line numbers associated with the deep files
+for lineNum in `cut -f$depth -d/ $TEMPFILE | cat -n | sed 's/\t/:/' | grep -v ":$" | cut -f1 -d:`
+do
+	head -$lineNum $TEMPFILE | tail -1
+done
+
+rm -rf $TEMPFILE

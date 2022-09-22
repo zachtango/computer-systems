@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if 
+	
+	echo invalid pid $pid!
+	exit 1
+fi
 
 pid=$$
 echo $pid
@@ -9,7 +14,7 @@ while [ $pid -gt 0 ]
 do
 
 ps -f -p $pid | tail -1
-pid= ps -f -p $pid | tail -1 | cut -c15-20
+pid='ps -f -p $pid | tail -1 | cut -c15-20'
 #echo $pid
 
 done
