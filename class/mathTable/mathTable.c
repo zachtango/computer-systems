@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]){
 	if(argc != 2){
@@ -12,9 +13,9 @@ int main(int argc, char *argv[]){
 
 	for(int i = 1; i <= 10; i++){
 		if(!fork()){
-			printf("%d * %d = %d\n", num, i, num * num);
+			printf("%d * %d = %d\n", num, i, i * num);
 
-			return;
+			return 0;
 		}
 	}
 

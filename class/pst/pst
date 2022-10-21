@@ -1,0 +1,10 @@
+#! /bin/bash
+
+
+pid=$$ # $$ means current process idi
+
+while [ $pid -gt 0 ]
+do
+echo $pid
+pid=`ps -f -p $pid | tail -n 1 | cut -c 16-20`
+done

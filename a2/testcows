@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+for i in {1..10}
+do
+	echo -n "cowfind1 ans: "
+	cowfind1 < ${i}.in
+
+	echo -n "cowfind2 ans: "
+	cowfind2 < ${i}.in
+
+	echo -n "${i}.out ans: "
+	cat ${i}.out
+
+	echo 
+done

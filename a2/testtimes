@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for i in {1..10}
+do
+	echo -n "cowfind1 time: "
+	{ time cowfind1 < ${i}.in; } 2>&1 | grep real
+
+	echo -n "cowfind2 time: "
+	{ time cowfind2 < ${i}.in; } 2>&1 | grep real
+
+	echo
+done
