@@ -7,7 +7,7 @@
 #define MAX_LINE_LEN 100
 #define MAX_OPERAND_LEN 100
 
-int main(){
+int main(int argc, char *argv[]){
 	/*
 		a * b + c
 
@@ -69,7 +69,13 @@ int main(){
 
 		w/ the num of operators you know the num of operands will be num operators + 1
 	*/
-	char fileName[] = "data.txt";
+
+	if(argc != 2){
+		printf("calculator <arg>\n");
+		return 0;
+	}
+
+	char *fileName = argv[1];
 
 	FILE *fp;
 	char line[MAX_LINE_LEN];
@@ -90,59 +96,63 @@ int main(){
 
 		printf("%d ", operands[i]);
 	}
-	printf("\n");
+	printf("\n%d\n", numOperands);
 
 	// pipes
 	int parent[2];
-	int op2[numOperators][2]; // stream 3
 	int op1[numOperators][2]; // going to dup to stdin and stdout
+	int op2[numOperators][2]; // stream 3
 
 	pipe(parent);
 
 	for(int i = 0; i < numOperators; i++){
-		pipe(op2[i]);
 		pipe(op1[i]);
+		pipe(op2[i]);
+
+		printf("%d: %d\n", i, op1[i][1]);
 	}
 
 	// pipe set up for children
 	for(int i = 0; i < numOperators; i++){
+
 		if(fork() == 0){
 			// in child
 			
 			// stdin
 			dup2(op1[i][0], 0);
-			close(op1[i][0]);
-
+			
 			// stdout
 			if(i + 1 < numOperators){
-				dup2(op2[i + 1][1], 1);
-				close(op2[i + 1][1]);
+				dup2(op1[i + 1][1], 1);
 			} else{
 				dup2(parent[1], 1);
 			}
 
+
 			// stream 3
 			dup2(op2[i][0], 3);
-			close(op2[i][0]);
-			
-			close(parent[1]);
-
-			close(op1[i][1]); // don't write to this
+		
+			// clean up pipes
+			for(int j = 0; j < numOperators; j++){
+				close(op1[j][0]);
+				close(op1[j][1]); // don't write to this
+				close(op2[j][0]);	
+				close(op2[j][1]); // dont write to this
+			}
 			close(parent[0]); // don't read from this
-			close(op2[i][1]); // dont write to this
-
+			close(parent[1]);
 
 			execvp("./add", NULL);
 
 			exit(0);
 		}
+
 	}
 	
 	close(parent[1]); // dont write to parent pipe
 
 	// input operands into pipes
-	write(op1[i][1], &operands[0], sizeof(int));
-	close(op1[i][1]);
+	write(op1[0][1], &operands[0], sizeof(int));
 
 	for(int i = 0; i < numOperators; i++){
 		close(op1[i][0]); // don't read from children pipes
@@ -150,6 +160,7 @@ int main(){
 
 		write(op2[i][1], &operands[i + 1], sizeof(int));
 		close(op2[i][1]);
+		close(op1[i][1]);
 	}
 
 	while(wait(NULL) > 0);

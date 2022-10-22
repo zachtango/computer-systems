@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
         close(op2[0]); // don't read from this
         close(toParent[1]); // don't write to this
         
-        int a = 2;
+        int a = 3;
 
         write(op1[1], &a, sizeof(int));
         write(op2[1], &a, sizeof(int));
@@ -44,14 +45,14 @@ int main(int argc, char *argv[])
         close(op1[1]);
         close(op2[1]);
 
-        wait(0);
+        wait(NULL);
 
         int res;
 
         read(toParent[0], &res, sizeof(int));
 
-        printf("%d", res);
-
+        printf("%d\n", res);
+			
     }
 
 
