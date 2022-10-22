@@ -132,7 +132,7 @@ int main(){
 				write(op2[i + 1][0], buffer, MAX_OPERAND_LEN);
 			}
 
-			exit();
+			exit(0);
 		}
 	}
 
