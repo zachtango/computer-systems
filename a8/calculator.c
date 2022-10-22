@@ -113,23 +113,28 @@ int main(){
 
 	for(int i = 0; i < numOperators; i++){
 		if(fork() == 0){
+			FILE *fp;
+
 			// in child
 
-			//dup2(op1[i][0], 1); // stdin
-			//dup2(op1[i][1], 0); // stdout
+			dup2(op1[i][1], 0); // stdin
+			dup2(op1[i][0], 1); // stdout
+			dup2(op2[i][1], 3); // stream 3
 
 			// read a and 
 			int a, b;
 			
-			printf("i: %d\n", i);
-			read(op1[i][0], &a, sizeof(int));
-			read(op2[i][0], &b, sizeof(int));
+			// printf("i: %d\n", i);
+			// read(op1[i][0], &a, sizeof(int));
+			// read(op2[i][0], &b, sizeof(int));
 
-			printf("%d %d\n", a, b);
+			// printf("%d %d\n", a, b);
+			fp = popen("add");
 
 			int c;
+			
+			read(op2[i][1], &c, sizeof(int));
 
-			c = a + b;
 			printf("c: %d\n", c);
 
 			if(i + 1 < numOperators){ // write to input of next operation
@@ -138,6 +143,7 @@ int main(){
 				write(parent[1], &c, sizeof(int));
 			}
 
+			pclose(fp);
 			exit(0);
 		}
 	}
