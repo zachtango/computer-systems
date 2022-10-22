@@ -105,6 +105,13 @@ int main(){
 	}
 
 	write(op1[0][0], &operands[0], sizeof(int)); // write first operand
+	int a, b;
+	
+	printf("%d\n", i);
+	read(op1[0][0], &a, sizeof(int));
+	read(op2[0][0], &b, sizeof(int));
+	
+	printf("%d %d\n", a, b);
 
 	for(int i = 0; i < numOperators; i++){
 		if(fork() == 0){
@@ -130,7 +137,7 @@ int main(){
 			write(op1[i][1], &c, sizeof(int)); // write to stdout
 
 			if(i + 1 < numOperators){ // write to input of next operation
-				write(op2[i + 1][0], &c, sizeof(int));
+				write(op1[i + 1][0], &c, sizeof(int));
 			}
 
 			exit(0);
