@@ -89,8 +89,21 @@ int main(int argc, char *argv[]){
 
 	int numOperators = (strlen(line) - 1 - 1) / 4;  
 	int numOperands = numOperators + 1;
+	char operators[numOperators];
 	int operands[numOperands];
 
+	int counter = 0;
+	// extr operators
+	for(int i = 0; i < strlen(line); i++){
+		char c = line[i];
+
+		if(c == '+' || c == '-' || c == '*' || c == '/'){
+			operators[counter] = c;
+			counter += 1;
+		}
+	}
+
+	// extr operands
 	for(int i = 0; i < numOperands; i++){
 		fscanf(fp, "%d", &operands[i]);
 
@@ -98,7 +111,7 @@ int main(int argc, char *argv[]){
 	}
 	printf("\n%d\n", numOperands);
 
-	// pipes
+	// pipe setup
 	int parent[2];
 	int op1[numOperators][2]; // going to dup to stdin and stdout
 	int op2[numOperators][2]; // stream 3
@@ -114,7 +127,7 @@ int main(int argc, char *argv[]){
 
 	// pipe set up for children
 	for(int i = 0; i < numOperators; i++){
-
+		char op = operators[i];
 		if(fork() == 0){
 			// in child
 			
@@ -142,7 +155,14 @@ int main(int argc, char *argv[]){
 			close(parent[0]); // don't read from this
 			close(parent[1]);
 
-			execvp("./add", NULL);
+			if(op == '+')
+				execvp("./add", NULL);
+			else if(op == '-')
+				execvp("./subtract", NULL);
+			else if(op == '*')
+				execvp("./multiply", NULL);
+			else 
+				execvp("./divide", NULL);
 
 			exit(0);
 		}
