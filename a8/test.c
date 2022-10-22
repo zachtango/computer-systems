@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
         int res;
 
-        read(toParent[0], res, sizeof(int));
+        read(toParent[0], &res, sizeof(int));
 
         printf("%d", res);
 
