@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 #define MAX_LINE_LEN 100
 #define MAX_OPERAND_LEN 100
@@ -68,7 +69,7 @@ int main(){
 
 		w/ the num of operators you know the num of operands will be num operators + 1
 	*/
-	char fileName[] = "data2.txt";
+	char fileName[] = "basic.txt";
 
 	FILE *fp;
 	char line[MAX_LINE_LEN];
@@ -109,12 +110,14 @@ int main(){
 		if(fork() == 0){
 			// in child
 
-			dup2(op1[i][0], 0);
-			dup2(op1[i][1], 1);
+			printf("%d\n", i);
+			//dup2(op1[i][0], 0);
+			//dup2(op1[i][1], 1);
 
 			// read a and 
 			int a, b;
-
+			
+			printf("%d\n", i);
 			read(op1[i][0], &a, sizeof(int));
 			read(op2[i][0], &b, sizeof(int));
 
@@ -127,14 +130,16 @@ int main(){
 			write(op1[i][1], &c, sizeof(int)); // write to stdout
 
 			if(i + 1 < numOperators){ // write to input of next operation
-				write(op2[i + 1][0], c, sizeof(int));
+				write(op2[i + 1][0], &c, sizeof(int));
 			}
 
 			exit(0);
 		}
 	}
 
-
+	while(wait(NULL) > 0){
+		
+	}
 
 	return 0;
 }
