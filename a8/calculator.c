@@ -98,8 +98,12 @@ int main(){
 		pipe(op2[i]);
 		pipe(op1[i]);
 
-		close(op2[i][1]); // don't need write of op2 
+		close(op2[i][1]); // don't need write of op2
+
+		write(op2[i][0], &operands[i + 1], sizeof(int));
 	}
+
+	write(op1[0][0], &operands[0], sizeof(int)); // write first operand
 
 	for(int i = 0; i < numOperators; i++){
 		if(fork() == 0){
@@ -108,40 +112,29 @@ int main(){
 			dup2(op1[i][0], 0);
 			dup2(op1[i][1], 1);
 
-			// read a and b
-			char buffer[MAX_OPERAND_LEN];
+			// read a and 
 			int a, b;
 
-			read(op1[i][0], buffer, MAX_OPERAND_LEN);
-			printf("%s\n", buffer);
-			a = atoi(buffer);
+			read(op1[i][0], &a, sizeof(int));
+			read(op2[i][0], &b, sizeof(int));
 
-			read(op2[i][0], buffer, MAX_OPERAND_LEN);
-			printf("%s\n", buffer);
-
-			b = atoi(buffer);
+			printf("%d %d\n", a, b);
 
 			int c;
 
 			c = a + b;
 
-			sprintf(buffer, "%d", c);
-
-			write(op1[i][1], buffer, MAX_OPERAND_LEN); // write to stdout
+			write(op1[i][1], &c, sizeof(int)); // write to stdout
 
 			if(i + 1 < numOperators){ // write to input of next operation
-				write(op2[i + 1][0], buffer, MAX_OPERAND_LEN);
+				write(op2[i + 1][0], c, sizeof(int));
 			}
 
 			exit(0);
 		}
 	}
 
-	char res[MAX_OPERAND_LEN];
 
-	read(op1[numOperators - 1][0], res, MAX_OPERAND_LEN);
-
-	printf("%s\n", res);
 
 	return 0;
 }
