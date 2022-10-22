@@ -103,93 +103,94 @@ int main(int argc, char *argv[]){
 		}
 	}
 
-	// extr operands
-	for(int i = 0; i < numOperands; i++){
-		fscanf(fp, "%d", &operands[i]);
+	while(fscanf(fp, "%d", &operands[0]) != EOF){
+		// extr operands
+		for(int i = 1; i < numOperands; i++){
+			fscanf(fp, "%d", &operands[i]);
 
-		printf("%d ", operands[i]);
-	}
-	printf("\n%d\n", numOperands);
-
-	// pipe setup
-	int parent[2];
-	int op1[numOperators][2]; // going to dup to stdin and stdout
-	int op2[numOperators][2]; // stream 3
-
-	pipe(parent);
-
-	for(int i = 0; i < numOperators; i++){
-		pipe(op1[i]);
-		pipe(op2[i]);
-
-		printf("%d: %d\n", i, op1[i][1]);
-	}
-
-	// pipe set up for children
-	for(int i = 0; i < numOperators; i++){
-		char op = operators[i];
-		if(fork() == 0){
-			// in child
-			
-			// stdin
-			dup2(op1[i][0], 0);
-			
-			// stdout
-			if(i + 1 < numOperators){
-				dup2(op1[i + 1][1], 1);
-			} else{
-				dup2(parent[1], 1);
-			}
-
-
-			// stream 3
-			dup2(op2[i][0], 3);
-		
-			// clean up pipes
-			for(int j = 0; j < numOperators; j++){
-				close(op1[j][0]);
-				close(op1[j][1]); // don't write to this
-				close(op2[j][0]);	
-				close(op2[j][1]); // dont write to this
-			}
-			close(parent[0]); // don't read from this
-			close(parent[1]);
-
-			if(op == '+')
-				execvp("./add", NULL);
-			else if(op == '-')
-				execvp("./subtract", NULL);
-			else if(op == '*')
-				execvp("./multiply", NULL);
-			else 
-				execvp("./divide", NULL);
-
-			exit(0);
+			printf("%d ", operands[i]);
 		}
 
-	}
-	
-	close(parent[1]); // dont write to parent pipe
+		// pipe setup
+		int parent[2];
+		int op1[numOperators][2]; // going to dup to stdin and stdout
+		int op2[numOperators][2]; // stream 3
 
-	// input operands into pipes
-	write(op1[0][1], &operands[0], sizeof(int));
+		pipe(parent);
 
-	for(int i = 0; i < numOperators; i++){
-		close(op1[i][0]); // don't read from children pipes
-		close(op2[i][0]); 
+		for(int i = 0; i < numOperators; i++){
+			pipe(op1[i]);
+			pipe(op2[i]);
 
-		write(op2[i][1], &operands[i + 1], sizeof(int));
-		close(op2[i][1]);
-		close(op1[i][1]);
-	}
+			printf("%d: %d\n", i, op1[i][1]);
+		}
 
-	while(wait(NULL) > 0);
+		// pipe set up for children
+		for(int i = 0; i < numOperators; i++){
+			char op = operators[i];
+			if(fork() == 0){
+				// in child
+				
+				// stdin
+				dup2(op1[i][0], 0);
+				
+				// stdout
+				if(i + 1 < numOperators){
+					dup2(op1[i + 1][1], 1);
+				} else{
+					dup2(parent[1], 1);
+				}
+
+
+				// stream 3
+				dup2(op2[i][0], 3);
+			
+				// clean up pipes
+				for(int j = 0; j < numOperators; j++){
+					close(op1[j][0]);
+					close(op1[j][1]); // don't write to this
+					close(op2[j][0]);	
+					close(op2[j][1]); // dont write to this
+				}
+				close(parent[0]); // don't read from this
+				close(parent[1]);
+
+				if(op == '+')
+					execvp("./add", NULL);
+				else if(op == '-')
+					execvp("./subtract", NULL);
+				else if(op == '*')
+					execvp("./multiply", NULL);
+				else 
+					execvp("./divide", NULL);
+
+				exit(0);
+			}
+
+		}
 		
-	int ans;
+		close(parent[1]); // dont write to parent pipe
 
-	read(parent[0], &ans, sizeof(int));
+		// input operands into pipes
+		write(op1[0][1], &operands[0], sizeof(int));
 
-	printf("ans: %d\n", ans);
+		for(int i = 0; i < numOperators; i++){
+			close(op1[i][0]); // don't read from children pipes
+			close(op2[i][0]); 
+
+			write(op2[i][1], &operands[i + 1], sizeof(int));
+			close(op2[i][1]);
+			close(op1[i][1]);
+		}
+
+		while(wait(NULL) > 0);
+			
+		int ans;
+
+		read(parent[0], &ans, sizeof(int));
+
+		printf("ans: %d\n", ans);
+	}
 
 	return 0;
 }
