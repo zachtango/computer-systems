@@ -188,7 +188,7 @@ int main(int argc, char *argv[]){
 		int ans;
 
 		read(parent[0], &ans, sizeof(int));
-
+		close(parent[0]);
 		printf("ans: %d\n", ans);
 	}
 
