@@ -108,7 +108,7 @@ int main(int argc, char *argv[]){
 		for(int i = 1; i < numOperands; i++){
 			fscanf(fp, "%d", &operands[i]);
 
-			printf("%d ", operands[i]);
+			// printf("%d ", operands[i]);
 		}
 
 		// pipe setup
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]){
 			pipe(op1[i]);
 			pipe(op2[i]);
 
-			printf("%d: %d\n", i, op1[i][1]);
+			// printf("%d: %d\n", i, op1[i][1]);
 		}
 
 		// pipe set up for children
@@ -189,7 +189,7 @@ int main(int argc, char *argv[]){
 
 		read(parent[0], &ans, sizeof(int));
 		close(parent[0]);
-		printf("ans: %d\n", ans);
+		printf("%d\n", ans);
 	}
 
 	return 0;
