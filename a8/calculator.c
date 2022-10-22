@@ -69,7 +69,7 @@ int main(){
 
 		w/ the num of operators you know the num of operands will be num operators + 1
 	*/
-	char fileName[] = "basic.txt";
+	char fileName[] = "data.txt";
 
 	FILE *fp;
 	char line[MAX_LINE_LEN];
@@ -92,39 +92,36 @@ int main(){
 	}
 	printf("\n");
 
+	// pipes
+	int parent[2];
 	int op2[numOperators][2]; // stream 3
 	int op1[numOperators][2]; // going to dup to stdin and stdout
+
+	pipe(parent);
 
 	for(int i = 0; i < numOperators; i++){
 		pipe(op2[i]);
 		pipe(op1[i]);
 
-		close(op2[i][1]); // don't need write of op2
+		//close(op2[i][1]); // don't need write of op2
 
-		write(op2[i][0], &operands[i + 1], sizeof(int));
+		write(op2[i][1], &operands[i + 1], sizeof(int));
+		//printf("wrote to %d w value %d\n", i, operands[i + 1]);
 	}
-
-	write(op1[0][0], &operands[0], sizeof(int)); // write first operand
-	int a, b;
 	
-	printf("%d\n", i);
-	read(op1[0][0], &a, sizeof(int));
-	read(op2[0][0], &b, sizeof(int));
-	
-	printf("%d %d\n", a, b);
+	write(op1[0][1], &operands[0], sizeof(int)); // write first operand
 
 	for(int i = 0; i < numOperators; i++){
 		if(fork() == 0){
 			// in child
 
-			printf("%d\n", i);
-			//dup2(op1[i][0], 0);
-			//dup2(op1[i][1], 1);
+			//dup2(op1[i][0], 1); // stdin
+			//dup2(op1[i][1], 0); // stdout
 
 			// read a and 
 			int a, b;
 			
-			printf("%d\n", i);
+			printf("i: %d\n", i);
 			read(op1[i][0], &a, sizeof(int));
 			read(op2[i][0], &b, sizeof(int));
 
@@ -133,20 +130,25 @@ int main(){
 			int c;
 
 			c = a + b;
-
-			write(op1[i][1], &c, sizeof(int)); // write to stdout
+			printf("c: %d\n", c);
 
 			if(i + 1 < numOperators){ // write to input of next operation
-				write(op1[i + 1][0], &c, sizeof(int));
+				write(op1[i + 1][1], &c, sizeof(int));
+			} else{
+				write(parent[1], &c, sizeof(int));
 			}
 
 			exit(0);
 		}
 	}
-
-	while(wait(NULL) > 0){
+	
+	while(wait(NULL) > 0);
 		
-	}
+	int ans;
+
+	read(parent[0], &ans, sizeof(int));
+
+	printf("ans: %d\n", ans);
 
 	return 0;
 }
