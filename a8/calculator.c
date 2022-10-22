@@ -113,10 +113,11 @@ int main(){
 			int a, b;
 
 			read(op1[i][0], buffer, MAX_OPERAND_LEN);
-
+			printf("%s\n", buffer);
 			a = atoi(buffer);
 
 			read(op2[i][0], buffer, MAX_OPERAND_LEN);
+			printf("%s\n", buffer);
 
 			b = atoi(buffer);
 
