@@ -36,8 +36,10 @@ int main(int argc, char *argv[])
         close(op2[0]); // don't read from this
         close(toParent[1]); // don't write to this
         
-        write(op1[1], 2, sizeof(int));
-        write(op2[1], 2, sizeof(int));
+        int a = 2;
+
+        write(op1[1], &a, sizeof(int));
+        write(op2[1], &a, sizeof(int));
 
         close(op1[1]);
         close(op2[1]);
