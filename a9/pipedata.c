@@ -6,35 +6,44 @@
 
 int main(int argc, char *argv[]){
 
-	if(argc != 2){
+	if(argc != 3){
 		printf("pipedata \"command 1\" \"command 2\"\n");
 		return 0;
     }
 
+	char *arr[] = {"cat", "data.txt", 0};
+	execvp("cat", arr);
+
+	exit(0);
 	// pipe setup
 	int parent[2];
 
 	pipe(parent);
-	pipe(child);
 
 	if(fork() == 0){
 		// child
+
+		dup2(parent[1], 1);
+
 		close(parent[0]);
+		close(parent[1]);
 
-		dup2(parent[1], STDOUT_FILENO);
-
-		execvp(argv[1], NULL); // replaces curr process w/ command process
+		//execvp(argv[1], NULL); // replaces curr process w/ command process
+		
+		execvp("cat", arr);
 
 		perror("execvp");
 
 		return 0;
 	}
 
+	wait(NULL);
+
 	close(parent[1]);
 
 	char buffer[10];
 
-	read(parent[0], 10);
+	read(parent[0], buffer, 1);
 	close(parent[0]);
 
 	printf("%s\n", buffer);
