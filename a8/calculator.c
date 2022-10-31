@@ -1,3 +1,12 @@
+/*
+	zxt200009
+	Zach Tang
+	CS 3377.005
+	a8
+
+*/
+
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
