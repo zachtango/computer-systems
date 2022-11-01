@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
+#define MAX_ARGS 15
+
 int main(int argc, char *argv[]){
 
 	if(argc != 3){
@@ -11,10 +13,25 @@ int main(int argc, char *argv[]){
 		return 0;
     }
 
-	char *arr[] = {"cat", "data.txt", 0};
-	execvp("cat", arr);
+	char *command1[MAX_ARGS];
+	char *command2[MAX_ARGS];
 
-	exit(0);
+	int i = 0;
+	char *token = strtok(command1, " ");
+	while(token){
+		command1[i] = token;
+		i += 1;
+	}
+	command1[i] = NULL;
+	i = 0;
+
+	token = strtok(command2, " ");
+	while(token){
+		command2[i] = token;
+		i += 1;
+	}
+	command2[i] = NULL;
+
 	// pipe setup
 	int parent[2];
 
@@ -27,10 +44,9 @@ int main(int argc, char *argv[]){
 
 		close(parent[0]);
 		close(parent[1]);
-
-		//execvp(argv[1], NULL); // replaces curr process w/ command process
 		
-		execvp("cat", arr);
+		// replaces curr process w/ command process
+		execvp(command1[0], command1);
 
 		perror("execvp");
 
