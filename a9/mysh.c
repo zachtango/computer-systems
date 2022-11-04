@@ -15,8 +15,8 @@
 
 #define MAX_CHILDREN 1000
 
-int parent[2];
-int child[MAX_CHILDREN][2];
+//int parent[2];
+//int child[MAX_CHILDREN][2];
 
 //runs a simple command
 //cmdname arg1 arg2 arg3 ...
@@ -54,10 +54,14 @@ int child[MAX_CHILDREN][2];
 int main() {
 	// https://stackoverflow.com/questions/3501338/c-read-file-line-by-line
 	// load up all the quotes from quotes.txt
-	char quotes[MAXQUOTES][MAXLEN];
-	FILE *fp = fopen("quotes.txt", "r");
-	char buffer[MAXLEN];
+	
+	printf("test");
+	char quotes[MAXQUOTES][100];
+	FILE *fp;
+//	fp = fopen("quotes.txt", "r");
+	/*char buffer[MAXLEN];
 	int numQuotes = 0;
+
 	while(fgets(buffer, MAXLEN, fp)) {
 		for(int j = 0; j < MAXLEN; j++)
 			quotes[numQuotes][j] = buffer[j];
@@ -67,7 +71,7 @@ int main() {
 	fclose(fp);
 
 	// infinite loop to serve the customer
-	while (1) {
+	/*while (1) {
 		//output a random quote to stderr
 		fputs(quotes[rand() % numQuotes], stderr);
 		fprintf(stderr, "# ");
@@ -86,6 +90,6 @@ int main() {
 		// int x=0;
 		// wait(&x);
 	}
-
+*/
 	return 0;
 }
