@@ -15,7 +15,6 @@
 #define MAX_ARGS 15
 #define MAX_COMMANDS 100
 
-int parent[2];
 int children[MAX_COMMANDS][2];
 char *commands[MAX_COMMANDS];
 int numCommands;
@@ -24,7 +23,7 @@ int numCommands;
 // cmdname arg1 arg2 arg3 ...
 void runCommand(char *command) {
 
-	printf("%s\n", command);
+	//fprintf(stderr, "%s\n", command);
 	char* args[MAX_ARGS];
 
 	//split and assemble the arguments and invoke execvp()
@@ -39,11 +38,11 @@ void runCommand(char *command) {
 	}
 
 	args[i] = NULL;
-
+	/*
 	for(int j = 0; j < i; j++){
-		printf("test:%s", args[j]);
-	}
-	printf("%d\n", i);
+		fprintf(stderr, "test:%s", args[j]);
+	}*/
+
 	execvp(args[0], args);
 
 	perror("execvp");
@@ -56,27 +55,21 @@ void child(int i) {
 	//rewire pipes to 0 and 1 
 	//close unnecessary pipes
 
-	if(i != 0) dup2(children[i][0], STDIN_FILENO);
+	dup2(children[i][0], STDIN_FILENO);
 	
 	if(i < numCommands - 1) 
 		dup2(children[i + 1][1], STDOUT_FILENO);
-	else
-		dup2(parent[1], STDOUT_FILENO);
 
 	for(int j = 0; j < numCommands; j++){
 		close(children[j][0]);
 		close(children[j][1]);
 	}
-	close(parent[0]);
-	close(parent[1]);
 
 	//run ith command
 	runCommand(commands[i]);
 }
 
 void processLine(char *line) {
-	pipe(parent);
-	dup2(parent[0], STDERR_FILENO);
 
 	char *pipePtr = strchr(line, '|');
 	char *equalPtr = strchr(line, '=');
@@ -92,9 +85,7 @@ void processLine(char *line) {
 		
 		char *token = strtok(line, "|");
 
-		while(token){
-			printf("%s\n", token);
-			
+		while(token){	
 			commands[i] = token;
 			token = strtok(NULL, "|"); // continue detokenizing
 			
@@ -118,8 +109,6 @@ void processLine(char *line) {
 			close(children[i][0]);
 			close(children[i][1]);
 		}
-		close(parent[0]);
-		close(parent[1]);
 		
 	}
 	// } else if (equalPtr) {
@@ -152,6 +141,7 @@ int main() {
 
 	fclose(fp);
 
+	fprintf(stderr, "%d quotes were read.\n", numQuotes);
 	// infinite loop to serve the customer
 	while (1) {
 		//output a random quote to stderr
