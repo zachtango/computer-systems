@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/stat.h>
-// #include <sys/wait.h>
+#include <sys/wait.h>
 
 //read all the quotes from quotes.txt
 //when client asks for a motivational quote, select one randomly and send it out.
@@ -24,22 +24,26 @@ int numCommands;
 // cmdname arg1 arg2 arg3 ...
 void runCommand(char *command) {
 
+	printf("%s\n", command);
 	char* args[MAX_ARGS];
 
 	//split and assemble the arguments and invoke execvp()
 	//use strtok(..)
 	int i = 0;
-	char *token = strtok(command, " ");
+	char *token = strtok(command, "\n ");
 	while(token){
-		printf("%s\n", token);
 		args[i] = token;
-		token = strtok(NULL, " "); // continue detokenizing
+		token = strtok(NULL, "\n "); // continue detokenizing
 		
 		i += 1;
 	}
 
 	args[i] = NULL;
 
+	for(int j = 0; j < i; j++){
+		printf("test:%s", args[j]);
+	}
+	printf("%d\n", i);
 	execvp(args[0], args);
 
 	perror("execvp");
@@ -53,13 +57,12 @@ void child(int i) {
 	//close unnecessary pipes
 
 
-
-	if(i != 0) dup2(children[i][0], stdin);
+	if(i != 0) dup2(children[i][0], STDIN_FILENO);
 	
 	if(i < numCommands - 1) 
-		dup2(children[i + 1][1], stdout);
+		dup2(children[i + 1][1], STDOUT_FILENO);
 	else
-		dup2(parent[1], stdout);
+		dup2(parent[1], STDOUT_FILENO);
 
 	for(int j = 0; j < numCommands; j++){
 		close(children[j][0]);
@@ -98,7 +101,7 @@ void processLine(char *line) {
 		}
 		
 		numCommands = i;
-
+		
 		for(i = 0; i < numCommands; i++){
 			pipe(children[i]);
 		}
@@ -116,6 +119,7 @@ void processLine(char *line) {
 		close(parent[1]);
 
 		while(wait(NULL) > 0);
+		
 	}
 	// } else if (equalPtr) {
 	// 	// command has = operator, so 2 commands --> 2 processes
@@ -160,7 +164,10 @@ int main() {
 		if (fork() == 0) 
 			processLine(buffer);
 
-		dup2(parent[0], stderr);
+		dup2(parent[0], STDERR_FILENO);
+			
+		close(parent[0]);
+		close(parent[1]);
 		
 		//wait the child to finish the job!
 		int x=0;
