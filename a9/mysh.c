@@ -56,22 +56,23 @@ int main() {
 	// load up all the quotes from quotes.txt
 	
 	printf("test");
-	char quotes[MAXQUOTES][100];
+	char **quotes;
 	FILE *fp;
-//	fp = fopen("quotes.txt", "r");
-	/*char buffer[MAXLEN];
+	fp = fopen("quotes.txt", "r");
+	char buffer[MAXLEN];
 	int numQuotes = 0;
 
 	while(fgets(buffer, MAXLEN, fp)) {
-		for(int j = 0; j < MAXLEN; j++)
-			quotes[numQuotes][j] = buffer[j];
+		(quotes + numQuotes) = malloc(strlen(buffer) + 1);
+		strcpy(quotes + numQuotes, buffer);
 
 		numQuotes += 1;
 	}
+
 	fclose(fp);
 
 	// infinite loop to serve the customer
-	/*while (1) {
+	while (1) {
 		//output a random quote to stderr
 		fputs(quotes[rand() % numQuotes], stderr);
 		fprintf(stderr, "# ");
@@ -90,6 +91,6 @@ int main() {
 		// int x=0;
 		// wait(&x);
 	}
-*/
+
 	return 0;
 }
