@@ -15,7 +15,6 @@
 #define MAX_ARGS 15
 #define MAX_COMMANDS 100
 
-int parent[2];
 int children[MAX_COMMANDS][2];
 char *commands[MAX_COMMANDS];
 int numCommands;
@@ -32,8 +31,6 @@ void closePipes(){
 		close(children[i][1]);
 	}
 
-	close(parent[0]);
-	close(parent[1]);
 }
 
 // runs a simple command
@@ -72,12 +69,10 @@ void child(int i) {
 	//rewire pipes to 0 and 1 
 	//close unnecessary pipes
 
-	dup2(children[i][0], STDIN_FILENO);
+	dup2(children[i][1], STDOUT_FILENO);
 	
-	if(i < numCommands - 1) 
-		dup2(children[i + 1][1], STDOUT_FILENO);
-	else
-		dup2(parent[1], STDOUT_FILENO);
+	if(i > 0)
+		dup2(children[i - 1][0], STDIN_FILENO);
 
 	closePipes();
 
@@ -110,16 +105,16 @@ void processLine(char *line) {
 		
 		numCommands = i;
 		
-		pipe(parent);
 		pipeChildren();
 
 		for(i = 0; i < numCommands; i++){
-			if(fork() == 0) child(i);
-
-			wait(NULL);
+			if(fork() == 0){
+				child(i);
+				exit(0);
+			}
 		}
 
-		dup2(parent[0], STDIN_FILENO);
+		dup2(children[numCommands - 1][0], STDIN_FILENO);
 
 		closePipes();
 		
