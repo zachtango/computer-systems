@@ -60,9 +60,9 @@ int main() {
 	int numQuotes = 0;
 	while(fgets(buffer, MAXLEN, fp)) {
 		for(int j = 0; j < MAXLEN; j++)
-			quotes[i][j] = buffer[j];
+			quotes[numQuotes][j] = buffer[j];
 
-		i += numQuotes;
+		numQuotes += 1;
 	}
 	fclose(fp);
 
