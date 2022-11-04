@@ -80,6 +80,16 @@ void child(int i) {
 	runCommand(commands[i]);
 }
 
+void twoWayChild(int i){
+	dup2(children[i][0], STDIN_FILENO);
+	dup2(children[i + 2][1], STDOUT_FILENO);
+	
+	closePipes();
+
+	runCommand(commands[i]);
+}
+
+
 void processLine(char *line) {
 
 	char *pipePtr = strchr(line, '|');
@@ -123,48 +133,50 @@ void processLine(char *line) {
        		fprintf(stderr, "%s", buffer);
       	}
 
-	}
 	} else if (equalPtr) {
 		// command has = operator, so 2 commands --> 2 processes
 		int i = 0;
-		char *token = strtok(line, "|");
+		char *token = strtok(line, "=");
 		while(token){	
 			commands[i] = token;
-			token = strtok(NULL, "|"); // continue detokenizing
+			token = strtok(NULL, "="); // continue detokenizing
 			
 			i += 1;
 		}
 		
-		numCommands = i; // i should be 2
+		int parent[2];
+		int toChild[2];
 
-		pipeChildren();
-
-		// redir output of process 0 to input of process 1
+		pipe(parent);
+		pipe(toChild);
+		
 		// redir output of process 1 to input of process 0
 
 		if(fork() == 0){
-			// process 0
-			dup2(children[1][0], STDIN_FILENO);
-			dup2(children[0][1], STDOUT_FILENO);
-			
-			closePipes();
+			dup2(toChild[0], STDIN_FILENO);
+			dup2(parent[1], STDOUT_FILENO);
 
-			runCommand(commands[0]);
+			close(parent[0]);
+			close(parent[1]);
+			close(toChild[0]);
+			close(toChild[1]);
 
-			exit(0);
-		}
-
-		if(fork() == 0){
-			// process 1
-			dup2(children[0][0], STDIN_FILENO);
-			dup2(children[1][1], STDOUT_FILENO);
-			
 			runCommand(commands[1]);
 
-			exit(0);
+		} else{
+			dup2(parent[0], STDIN_FILENO);
+			dup2(toChild[1], STDOUT_FILENO);
+			
+			close(parent[0]);
+			close(parent[1]);
+			close(toChild[0]);
+			close(toChild[1]);
+			
+			runCommand(commands[0]);
 		}
-
-
+		
+		fprintf(stderr, "test\n");
+		
 	} else 
 		//it is a simple command, no pipe or = character
 		runCommand(line);
