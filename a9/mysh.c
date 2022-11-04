@@ -56,7 +56,6 @@ void child(int i) {
 	//rewire pipes to 0 and 1 
 	//close unnecessary pipes
 
-
 	if(i != 0) dup2(children[i][0], STDIN_FILENO);
 	
 	if(i < numCommands - 1) 
@@ -76,6 +75,8 @@ void child(int i) {
 }
 
 void processLine(char *line) {
+	pipe(parent);
+	dup2(parent[0], STDERR_FILENO);
 
 	char *pipePtr = strchr(line, '|');
 	char *equalPtr = strchr(line, '=');
@@ -109,6 +110,8 @@ void processLine(char *line) {
 		for(i = 0; i < numCommands; i++){
 			// runCommand(commands[i]);
 			if(fork() == 0) child(i);
+
+			wait(NULL);
 		}
 
 		for(i = 0; i < numCommands; i++){
@@ -117,8 +120,6 @@ void processLine(char *line) {
 		}
 		close(parent[0]);
 		close(parent[1]);
-
-		while(wait(NULL) > 0);
 		
 	}
 	// } else if (equalPtr) {
@@ -153,7 +154,6 @@ int main() {
 
 	// infinite loop to serve the customer
 	while (1) {
-		pipe(parent);
 		//output a random quote to stderr
 		fputs(quotes[rand() % numQuotes], stderr);
 		fprintf(stderr, "# ");
@@ -163,11 +163,6 @@ int main() {
 		//spawn a child for taking care of it
 		if (fork() == 0) 
 			processLine(buffer);
-
-		dup2(parent[0], STDERR_FILENO);
-			
-		close(parent[0]);
-		close(parent[1]);
 		
 		//wait the child to finish the job!
 		int x=0;
