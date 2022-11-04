@@ -15,9 +15,26 @@
 #define MAX_ARGS 15
 #define MAX_COMMANDS 100
 
+int parent[2];
 int children[MAX_COMMANDS][2];
 char *commands[MAX_COMMANDS];
 int numCommands;
+
+void pipeChildren(){
+	for(int i = 0; i < numCommands; i++){
+		pipe(children[i]);
+	}
+}
+
+void closePipes(){
+	for(int i = 0; i < numCommands; i++){
+		close(children[i][0]);
+		close(children[i][1]);
+	}
+
+	close(parent[0]);
+	close(parent[1]);
+}
 
 // runs a simple command
 // cmdname arg1 arg2 arg3 ...
@@ -59,11 +76,10 @@ void child(int i) {
 	
 	if(i < numCommands - 1) 
 		dup2(children[i + 1][1], STDOUT_FILENO);
+	else
+		dup2(parent[1], STDOUT_FILENO);
 
-	for(int j = 0; j < numCommands; j++){
-		close(children[j][0]);
-		close(children[j][1]);
-	}
+	closePipes();
 
 	//run ith command
 	runCommand(commands[i]);
@@ -94,22 +110,23 @@ void processLine(char *line) {
 		
 		numCommands = i;
 		
-		for(i = 0; i < numCommands; i++){
-			pipe(children[i]);
-		}
+		pipe(parent);
+		pipeChildren();
 
 		for(i = 0; i < numCommands; i++){
-			// runCommand(commands[i]);
 			if(fork() == 0) child(i);
 
 			wait(NULL);
 		}
 
-		for(i = 0; i < numCommands; i++){
-			close(children[i][0]);
-			close(children[i][1]);
-		}
+		dup2(parent[0], STDIN_FILENO);
+
+		closePipes();
 		
+		while (fgets(input, MAX_BUFFER_LEN, stdin) != NULL) {
+       		fprintf(stderr, "%s", input);
+      	}
+
 	}
 	// } else if (equalPtr) {
 	// 	// command has = operator, so 2 commands --> 2 processes
