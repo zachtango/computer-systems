@@ -20,36 +20,36 @@ int child[MAX_CHILDREN][2];
 
 //runs a simple command
 //cmdname arg1 arg2 arg3 ...
-void runCommand(char *command) {
-	//split and assemble the arguments and invoke execvp()
-	//use strtok(..)
-}
+// void runCommand(char *command) {
+// 	//split and assemble the arguments and invoke execvp()
+// 	//use strtok(..)
+// }
 
-//cmd0 | cmd1 | cmd2 | cmd3 | cmd4 
-void child(int i) {
-	//rewire pipes to 0 and 1 
-	//close unnecessary pipes
-	//run ith command
-	runCommand(commands[i]);
-}
+// //cmd0 | cmd1 | cmd2 | cmd3 | cmd4 
+// void child(int i) {
+// 	//rewire pipes to 0 and 1 
+// 	//close unnecessary pipes
+// 	//run ith command
+// 	runCommand(commands[i]);
+// }
 
-void processLine(char *line) {
-	char *pipePtr = strchr(line, '|');
-	char *equalPtr = strchr(line, '=');
-	if (pipePtr) { //not NULL
-		command has several sub-commands connected with pipes
-		setup commands array
-		setup pipes array
-		create children --> invoke child(i) in a loop
-		//cmd0 | cmd1 | cmd2 | cmd3 | cmd4 
-	} else if (equalPtr) {
-		command has = operator, so 2 commands --> 2 processes
-    } else 
-		//it is a simple command, no pipe or = character
-		runCommand(line);
+// void processLine(char *line) {
+// 	char *pipePtr = strchr(line, '|');
+// 	char *equalPtr = strchr(line, '=');
+// 	if (pipePtr) { //not NULL
+// 		command has several sub-commands connected with pipes
+// 		setup commands array
+// 		setup pipes array
+// 		create children --> invoke child(i) in a loop
+// 		//cmd0 | cmd1 | cmd2 | cmd3 | cmd4 
+// 	} else if (equalPtr) {
+// 		command has = operator, so 2 commands --> 2 processes
+//     } else 
+// 		//it is a simple command, no pipe or = character
+// 		runCommand(line);
 
-	exit(0);
-}
+// 	exit(0);
+// }
 
 int main() {
 	// https://stackoverflow.com/questions/3501338/c-read-file-line-by-line
