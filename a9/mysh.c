@@ -123,8 +123,9 @@ void processLine(char *line) {
 
 		closePipes();
 		
-		while (fgets(input, MAX_BUFFER_LEN, stdin) != NULL) {
-       		fprintf(stderr, "%s", input);
+		char buffer[MAXLEN];
+		while (fgets(buffer, MAXLEN, stdin) != NULL) {
+       		fprintf(stderr, "%s", buffer);
       	}
 
 	}
