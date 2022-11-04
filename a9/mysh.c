@@ -55,16 +55,15 @@ int main() {
 	// https://stackoverflow.com/questions/3501338/c-read-file-line-by-line
 	// load up all the quotes from quotes.txt
 	
-	printf("test");
-	char **quotes;
+	char *quotes[MAXQUOTES];
 	FILE *fp;
 	fp = fopen("quotes.txt", "r");
 	char buffer[MAXLEN];
 	int numQuotes = 0;
 
 	while(fgets(buffer, MAXLEN, fp)) {
-		(quotes + numQuotes) = malloc(strlen(buffer) + 1);
-		strcpy(quotes + numQuotes, buffer);
+		quotes[numQuotes] = malloc(strlen(buffer) + 1);
+		strcpy(quotes[numQuotes], buffer);
 
 		numQuotes += 1;
 	}
