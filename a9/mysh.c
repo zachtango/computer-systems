@@ -124,13 +124,50 @@ void processLine(char *line) {
       	}
 
 	}
-	// } else if (equalPtr) {
-	// 	// command has = operator, so 2 commands --> 2 processes
+	} else if (equalPtr) {
+		// command has = operator, so 2 commands --> 2 processes
+		int i = 0;
+		char *token = strtok(line, "|");
+		while(token){	
+			commands[i] = token;
+			token = strtok(NULL, "|"); // continue detokenizing
+			
+			i += 1;
+		}
 		
+		numCommands = i; // i should be 2
 
-	// } else 
-	// 	//it is a simple command, no pipe or = character
-	// 	runCommand(line);
+		pipeChildren();
+
+		// redir output of process 0 to input of process 1
+		// redir output of process 1 to input of process 0
+
+		if(fork() == 0){
+			// process 0
+			dup2(children[1][0], STDIN_FILENO);
+			dup2(children[0][1], STDOUT_FILENO);
+			
+			closePipes();
+
+			runCommand(commands[0]);
+
+			exit(0);
+		}
+
+		if(fork() == 0){
+			// process 1
+			dup2(children[0][0], STDIN_FILENO);
+			dup2(children[1][1], STDOUT_FILENO);
+			
+			runCommand(commands[1]);
+
+			exit(0);
+		}
+
+
+	} else 
+		//it is a simple command, no pipe or = character
+		runCommand(line);
 
 	exit(0);
 }
