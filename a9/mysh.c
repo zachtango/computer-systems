@@ -80,16 +80,6 @@ void child(int i) {
 	runCommand(commands[i]);
 }
 
-void twoWayChild(int i){
-	dup2(children[i][0], STDIN_FILENO);
-	dup2(children[i + 2][1], STDOUT_FILENO);
-	
-	closePipes();
-
-	runCommand(commands[i]);
-}
-
-
 void processLine(char *line) {
 
 	char *pipePtr = strchr(line, '|');
@@ -174,8 +164,6 @@ void processLine(char *line) {
 			
 			runCommand(commands[0]);
 		}
-		
-		fprintf(stderr, "test\n");
 		
 	} else 
 		//it is a simple command, no pipe or = character
