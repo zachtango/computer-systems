@@ -52,8 +52,10 @@ int main(int argc, char *argv[]) {
 	fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	FILE *serverfp = fopen(serverfifo, "w");
-	fgets(line, MAXLEN, clientfp);
-	printf("test: %s\n", line);
+
+	fscanf(clientfp, "%s", line);
+    puts(line);
+    fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	if (fork()) {
 		//parent - responsible for getting user input and sending to server

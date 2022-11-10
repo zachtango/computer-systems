@@ -162,56 +162,43 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	fprintf(clientfp, "Enter a letter in word %s > \n", display);
 	fflush(clientfp);
 
-	while(fgets(buffer, MAXLEN, serverfp)){
-		
+	while(hidden > 0 && fgets(buffer, MAXLEN, serverfp)){
 		printf("%s\n", buffer);
+		guess = buffer[0];
 
-		if(isalpha(buffer[0])){
-			guess = buffer[0];
-			printf("guess: %c\n", guess);
+		if(isalpha(guess)){
+			int wrong = 1;
+
+			for(int i = 0; i < n; i++){
+				if(guess == word[i]){
+					wrong = 0;
+
+					if(guess == display[i]){
+						fprintf(clientfp, "%c is already in the word.\n", guess);
+						fflush(clientfp);
+						break;
+					}
+
+					// correct guess
+					display[i] = guess;
+					hidden -= 1;
+				}
+			}
+			
+
+			if(wrong){
+				fprintf(clientfp, "%c is not in the word.\n", guess);
+				fflush(clientfp);
+				wrongGuesses += 1;
+			}
 		}
+		
+		printf("Enter a letter in word %s > ", display);
+		fprintf(clientfp, "Enter a letter in word %s > \n", display);
+		fflush(clientfp);
 	}
 
-	// while (hidden > 0) {
-
-	// 	printf("Enter a letter in word %s > ", display);
-	// 	fprintf(clientfp, "Enter a letter in word %s > ", display);
-	// 	fflush(clientfp);
-	// 	char guess;
-
-	// 	while(fgets(buffer, MAXLEN, serverfp)){
-		
-	// 		int n = sscanf(buffer, "%c", &guess);
-
-	// 		if(n > 0){
-	// 			int wrong = 1;
-			
-	// 			for(int i = 0; i < n; i++){
-	// 				if(guess == word[i]){
-	// 					wrong = 0;
-
-	// 					if(guess == display[i]){
-	// 						fprintf(clientfp, "%c is already in the word.\n", guess);
-	// 						fflush(clientfp);
-	// 						break;
-	// 					}
-
-	// 					// correct guess
-	// 					display[i] = guess;
-	// 					hidden -= 1;
-	// 				}
-	// 			}
-			
-
-	// 		if(wrong){
-	// 			fprintf(clientfp, "%c is not in the word.\n", guess);
-	// 			wrongGuesses += 1;
-	// 		}
-	// 		}
-	// 	}
-	// }
-
-	// fprintf(clientfp, "The word is %s.\n", word);
-	// fprintf(clientfp, "You missed %d times.\n", wrongGuesses);
-	// fflush(clientfp);
+	fprintf(clientfp, "The word is %s.\n", word);
+	fprintf(clientfp, "You missed %d times.\n", wrongGuesses);
+	fflush(clientfp);
 }
