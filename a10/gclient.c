@@ -61,9 +61,6 @@ int main(int argc, char *argv[]) {
 
         fprintf(serverfp, "%s\n", guess);
         fflush(serverfp);
-
-		// fprintf(serverfp, "%c\n", guess);
-		// fflush(serverfp);
 	}
 	
 
