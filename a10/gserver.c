@@ -145,14 +145,12 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	int hidden = n;
 	int wrongGuesses = 0;
 
-	while(1){
-		fprintf(clientfp, "Enter a letter in word %s >\n", display);
-		fflush(clientfp);
+	fprintf(clientfp, "Enter a letter in word %s >\n", display);
+	fflush(clientfp);
+	char guess;
 
-		char guess;
-		fgets(&guess, 1, serverfp);
-		fflush(serverfp);
-
+	while(fgets(&guess, 1, serverfp)){		
+		
 		printf("char: %c\n", guess);
 		
 		int wrong = 1;
@@ -182,6 +180,6 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		// 	wrongGuesses += 1;
 		// }
 		
-		
+		fgets(&guess, 1, serverfp); // remove \n
 	}
 }

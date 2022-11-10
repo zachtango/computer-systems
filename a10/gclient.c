@@ -52,16 +52,24 @@ int main(int argc, char *argv[]) {
 	fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	FILE *serverfp = fopen(serverfifo, "w");
+    
+    fgets(line, MAXLEN, clientfp);
+    printf("%s", line);
+    
     char guess;
-	while(fgets(line, MAXLEN, clientfp)){
-    	printf("%s", line);
+
+	while(1){
+        printf("%s", line);
 
         guess = getchar();
         getchar();
 
         fprintf(serverfp, "%c\n", guess);
+        
+        fgets(line, MAXLEN, clientfp);
 	}
 	
+    
 
 	fclose(clientfp);
 
