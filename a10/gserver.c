@@ -175,12 +175,12 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 			// }
 			
 
-			if(wrong){
-				printf("wrng\n");
-				// fprintf(clientfp, "%c is not in the word.\n", guess);
+			// if(wrong){
+			// 	printf("wrng\n");
+			// 	// fprintf(clientfp, "%c is not in the word.\n", guess);
 
-				wrongGuesses += 1;
-			}
+			// 	wrongGuesses += 1;
+			// }
 		}
 		
 	}
