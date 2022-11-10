@@ -154,7 +154,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		printf("%s\n", buffer);
 
 		char guess = buffer[0];
-		printf("%c\n", guess);
+		printf("char: %c\n", guess);
 		if(isalpha(guess)){
 			int wrong = 1;
 			printf("%d", n);
