@@ -54,8 +54,6 @@ int main(int argc, char *argv[]) {
 	FILE *serverfp = fopen(serverfifo, "w");
     char guess;
 	while (1) {
-        
-		printf("Enter quote # you want: ");
         char guess =  getchar();
         getchar();
 
