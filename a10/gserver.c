@@ -124,6 +124,11 @@ int main() {
 				FILE *serverfp = fopen(serverfifo, "r");
 				
 				int r = (rand() * rand()) % numWords;
+
+				while(r < 0 || r >= numWords){
+					r = (rand() * rand()) % numWords;
+				}
+
 				printf("Random word %d\n", r);
 
 				hangman(serverfp, clientfp, words[r]);
