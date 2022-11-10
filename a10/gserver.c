@@ -154,11 +154,11 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	
 	while(fgets(buffer, MAXLEN, serverfp)){
 		printf("%s\n", buffer);
-		int n = scanf(buffer, "%c", &guess);
-		if(n > 0){
-			fprintf(clientfp, "%c", guess);
-			printf("guess: %c\n", guess);
-		}
+		
+		guess = buffer[0];
+		fprintf(clientfp, "%c", guess);
+		printf("guess: %c\n", guess);
+
 		fflush(clientfp);
 	}
 
