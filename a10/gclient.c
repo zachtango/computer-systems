@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 		fgets(line, MAXLEN, clientfp);
         printf(line);
 
-        if(line[0] != 'T' || line[1] != 'h') break;
+        if(line[0] == 'T' && line[1] == 'h') break;
 
         fgets(line, MAXLEN, clientfp);
         line[strlen(line) - 1] = '\0';
