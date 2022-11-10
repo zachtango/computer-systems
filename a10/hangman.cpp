@@ -78,6 +78,9 @@ int main() {
 
     //select a random word
     srand(time(NULL));
+
+
+    
     //play the game!
     while (true)
         playGame(words[(rand()*rand())%numWords]);
