@@ -149,7 +149,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 	char buffer[MAXLEN];
 
-	char *msg;
+	char msg[MAXLEN];
 	while (fgets(buffer, MAXLEN, serverfp)) {
 		char guess = buffer[0];
 
@@ -161,7 +161,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 				wrong = 0;
 
 				if(guess == display[i]){
-					msg = "  is already in the word.\n";
+					strcpy(msg, "  is already in the word.\0");
 					msg[0] = guess;
 					break;
 				}
@@ -172,7 +172,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		}
 
 		if(wrong){
-			msg = "  is not in the word.\n";
+			strcpy(msg, "  is not in the word.\0");
 			msg[0] = guess;
 			wrongGuesses += 1;
 		}
