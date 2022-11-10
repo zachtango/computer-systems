@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 		scanf("%s\n", guess);
 		printf("%s", guess);
 
-        fprintf(serverfp, "%s", guess);
+        fprintf(serverfp, "%s\n", guess);
         fflush(serverfp);
 
 		// fprintf(serverfp, "%c\n", guess);
