@@ -117,8 +117,8 @@ int main() {
 				
 				hangman(serverfp, clientfp, words[(rand() * rand()) % numWords]);
 
-				close(serverfp);
-				close(clientfp);
+				fclose(serverfp);
+				fclose(clientfp);
 				exit(0);
 			}
 		}
@@ -144,7 +144,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 	fprintf(clientfp, "Enter a letter in word %s > ", display);
 	fflush(clientfp);
-	
+
 	while (hidden > 0  && fgets(guess, 1, serverfp)) {
 		
 		int wrong = 1;
@@ -153,14 +153,14 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 			if(*guess == word[i]){
 				wrong = 0;
 
-				if(guess == display[i]){
+				if(*guess == display[i]){
 					fprintf(clientfp, "%c is already in the word.\n", *guess);
 					fflush(clientfp);
 					break;
 				}
 
 				// correct guess
-				display[i] = guess;
+				display[i] = *guess;
 				hidden -= 1;
 			}
 		}
