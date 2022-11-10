@@ -121,7 +121,8 @@ int main() {
 
 				FILE *serverfp = fopen(serverfifo, "r");
 				
-				hangman(serverfp, clientfp, words[0]);
+				if(clientfp && serverfp)
+					hangman(serverfp, clientfp, words[0]);
 
 				exit(0);
 			}
