@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     char guess;
 
     fgets(line, MAXLEN, clientfp);
-    puts(line);
+    printf(line);
 
 	while (line[0] != 'T' || line[1] != 'h') {
         char guess =  getchar();
@@ -65,7 +65,10 @@ int main(int argc, char *argv[]) {
 		fflush(serverfp);
 		
 		fgets(line, MAXLEN, clientfp);
-        puts(line);
+        printf(line);
+
+        fgets(line, MAXLEN, clientfp);
+        printf(line);
 	}
 
 	fclose(clientfp);
