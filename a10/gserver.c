@@ -188,7 +188,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		fflush(clientfp);
 	}
 
-	fprintf(clientfp, "The word is %s. You missed %d times.\n", word, wrongGuesses);
+	fprintf(clientfp, "The word is %s. You missed %d times.\n\n", word, wrongGuesses);
 	fflush(clientfp);
 
 }
