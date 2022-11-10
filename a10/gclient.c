@@ -57,7 +57,8 @@ int main(int argc, char *argv[]) {
         
 		printf("Enter quote # you want: ");
         char guess =  getchar();
-		
+        getchar();
+
 		//send the quote # to server
 		fprintf(serverfp, "%c\n", guess);
 		fflush(serverfp);
