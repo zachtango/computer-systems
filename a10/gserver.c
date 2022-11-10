@@ -146,7 +146,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	// 	display[i] = '*';
 	// }
 
-	int hidden = n;
+	int hidden = 5;
 	char buffer[MAXLEN];
 	int wrongGuesses = 0;
 
