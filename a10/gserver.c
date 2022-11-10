@@ -123,7 +123,7 @@ int main() {
 
 				FILE *serverfp = fopen(serverfifo, "r");
 				
-				hangman(serverfp, clientfp, words[0]);
+				hangman(serverfp, clientfp, words[(rand() * rand()) % numWords]);
 
 				exit(0);
 			}
