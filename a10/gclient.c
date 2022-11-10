@@ -52,8 +52,8 @@ int main(int argc, char *argv[]) {
 	fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	FILE *serverfp = fopen(serverfifo, "w");
-    fgets(line, MAXLEN, clientfp);
-    puts(line);
+	fgets(line, MAXLEN, clientfp);
+	printf("test: %s\n", line);
 
 	if (fork()) {
 		//parent - responsible for getting user input and sending to server
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 		//child - responsible for getting responses and displaying
 		while (1) {
 			fgets(line, MAXLEN, clientfp);
-			puts(line);
+			printf("%s", line);
 		}
     }
 

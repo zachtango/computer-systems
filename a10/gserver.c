@@ -68,7 +68,7 @@ int main() {
 
 	//read one line at a time, allocate memory, then copy the line into array
 	while (fgets(line, MAXLEN, fp)) {
-		char *c = line + strlen(line);
+		char *c = line + strlen(line) - 1;
 		if(*c == '\n'){
 			*c = '\0'; // remove \n ending
 		}
@@ -157,24 +157,19 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	int wrongGuesses = 0;
 
 	char guess;
-	printf("word: %s %s\n", word, display);
 
-	while(hidden > 0){
-		printf("Enter a letter in word %s > ", display);
-		fprintf(clientfp, "Enter a letter in word %s > ", display);
-		fflush(clientfp);
+	printf("Enter a letter in word %s > ", display);
+	fprintf(clientfp, "Enter a letter in word %s > \n", display);
+	fflush(clientfp);
 
-		while(fgets(buffer, MAXLEN, serverfp)){
-			printf("%s\n", buffer);
+	while(fgets(buffer, MAXLEN, serverfp)){
+		
+		printf("%s\n", buffer);
 
-			if(isalpha(buffer[0])){
-				guess = buffer[0];
-				fprintf(clientfp, "%c", guess);
-				printf("guess: %c\n", guess);
-				fflush(clientfp);
-			}
+		if(isalpha(buffer[0])){
+			guess = buffer[0];
+			printf("guess: %c\n", guess);
 		}
-	
 	}
 
 	// while (hidden > 0) {
