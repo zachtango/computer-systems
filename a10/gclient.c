@@ -53,20 +53,20 @@ int main(int argc, char *argv[]) {
 
 	FILE *serverfp = fopen(serverfifo, "w");
     char guess;
+
+    fgets(line, MAXLEN, clientfp);
+    printf("%s", line);
+
 	while (1) {
         char guess =  getchar();
         getchar();
 
-		//send the quote # to server
 		fprintf(serverfp, "%c\n", guess);
 		fflush(serverfp);
 		
-		//read the response (quote) from the server
 		fgets(line, MAXLEN, clientfp);
 		printf("%s", line);
 	}
-	
-    
 
 	fclose(clientfp);
 
