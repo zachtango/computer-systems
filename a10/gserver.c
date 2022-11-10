@@ -83,7 +83,7 @@ int main() {
 
 	srand(getpid() + time(NULL) + getuid());
 	
-	close(fp);
+	fclose(fp);
 
 	//create a named pipes to read client's requests
 	char filename[MAXLEN];
