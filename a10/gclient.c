@@ -52,12 +52,12 @@ int main(int argc, char *argv[]) {
 	fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	FILE *serverfp = fopen(serverfifo, "w");
-
+    
 	while(fgets(line, MAXLEN, clientfp)){
     	printf("%s", line);
 
 		char guess[10];
-		scanf("%s\n", guess);
+		scanf("%s", guess);
 
         fprintf(serverfp, "%s\n", guess);
         fflush(serverfp);
