@@ -134,6 +134,7 @@ int main() {
 }
 
 int hangman(FILE* serverfp, FILE* clientfp, char* word){ 
+	printf("%s\n", word);
 
 	int n = strlen(word);
 	char display[n];
@@ -169,6 +170,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 			wrongGuesses += 1;
 		}
 
+		printf("%s\n", display);
 		fprintf(clientfp, "%s\n", display);
 		fflush(clientfp);
 	}
