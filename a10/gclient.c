@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 		
 		//read the response (quote) from the server
 		fgets(line, MAXLEN, clientfp);
-		puts(line);
+		printf("%s", line);
 	}
 	
     
