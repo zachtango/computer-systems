@@ -68,7 +68,12 @@ int main() {
 
 	//read one line at a time, allocate memory, then copy the line into array
 	while (fgets(line, MAXLEN, fp)) {
-		words[i] = (char *) malloc (strlen(line)+1);
+		char *c = line + strlen(line);
+		if(*c == '\n'){
+			*c = '\0'; // remove \n ending
+		}
+
+		words[i] = (char *) malloc (strlen(line) + 1);
 		strcpy(words[i], line);
 		i++;
 	}
