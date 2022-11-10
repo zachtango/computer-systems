@@ -152,8 +152,8 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		fprintf(clientfp, "Enter a letter in word %s > \n", display);
 		fflush(clientfp);
 
-		// fscanf(serverfp, "%c", &guess);
-
+		fscanf(serverfp, "%c", &guess);
+		printf("%c", guess);
 		// if(isalpha(guess)){
 		// 	// int wrong = 1;
 
