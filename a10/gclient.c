@@ -53,29 +53,18 @@ int main(int argc, char *argv[]) {
 
 	FILE *serverfp = fopen(serverfifo, "w");
 
-    fgets(line, MAXLEN, clientfp); //get rid of \n
-    line[strlen(line) - 1] = '\0';
-    puts(line);
+	while(1){
+    	fgets(line, MAXLEN, clientfp);
+    	line[strlen(line) - 1] = '\0';
+    	printf("%s", line);
 
-	if (fork()) {
-		//parent - responsible for getting user input and sending to server
-		while(1) {
-			//get the user input - one char at a time and store it in guess
-			fgets(line, MAXLEN, stdin);
+		char guess;
+		scanf("%c\n", &guess);
 		
-			// send the char to the server
-			// to avoid output getting stuck in the local buffer,
-			// we need 2 things: \n and fflush()
-			fprintf(serverfp, "%s\n", line);
-			fflush(serverfp);
-		}
-    } else { 
-		//child - responsible for getting responses and displaying
-		while (1) {
-			fgets(line, MAXLEN, clientfp);
-			printf("%s", line);
-		}
-    }
+		fprintf(serverfp, "%c\n", guess);
+		fflush(serverfp);
+	}
+	
 
 	fclose(clientfp);
 
