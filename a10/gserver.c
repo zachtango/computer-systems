@@ -143,36 +143,35 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	}
 
 	int hidden = n;
-	char buffer[MAXLEN];
 	int wrongGuesses = 0;
 
 	while(1){
-		fprintf(clientfp, "Enter a letter in word %s > \n", display);
+		fprintf(clientfp, "Enter a letter in word %s >\n", display);
+		fflush(clientfp);
 
-		fgets(buffer, MAXLEN, serverfp);
-		printf("%s\n", buffer);
+		char guess;
+		fgets(guess, 1, serverfp);
 
-		char guess = buffer[0];
 		printf("char: %c\n", guess);
 		
 		int wrong = 1;
 		printf("%d", n);
-		for(int i = 0; i < n; i++){
-			// if(guess == word[i]){
-			// 	wrong = 0;
+		// for(int i = 0; i < n; i++){
+		// 	// if(guess == word[i]){
+		// 	// 	wrong = 0;
 
-			// 	if(guess == display[i]){
-			// 		printf("%c already\n", guess);
-			// 		// fprintf(clientfp, "%c is already in the word.\n", guess);
+		// 	// 	if(guess == display[i]){
+		// 	// 		printf("%c already\n", guess);
+		// 	// 		// fprintf(clientfp, "%c is already in the word.\n", guess);
 
-			// 		break;
-			// 	}
+		// 	// 		break;
+		// 	// 	}
 
-			// 	// correct guess
-			// 	display[i] = guess;
-			// 	hidden -= 1;
-			// }
-		}
+		// 	// 	// correct guess
+		// 	// 	display[i] = guess;
+		// 	// 	hidden -= 1;
+		// 	// }
+		// }
 		
 
 		// if(wrong){
