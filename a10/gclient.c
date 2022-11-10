@@ -53,9 +53,9 @@ int main(int argc, char *argv[]) {
 
 	FILE *serverfp = fopen(serverfifo, "w");
 
-	fscanf(clientfp, "%s", line);
-    puts(line);
     fgets(line, MAXLEN, clientfp); //get rid of \n
+    line[strlen(line) - 1] = '\0';
+    puts(line);
 
 	if (fork()) {
 		//parent - responsible for getting user input and sending to server
