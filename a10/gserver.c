@@ -115,8 +115,16 @@ int main() {
 
 				FILE *serverfp = fopen(serverfifo, "r");
 				
-				hangman(serverfp, clientfp, words[(rand() * rand()) % numWords]);
-
+				char guess;
+				char buffer[MAXLEN];
+				while(fgets(buffer, MAXLEN, serverfp)){
+					int n = scanf(buffer, "%c", guess);
+					if(n > 0){
+						fprintf(clientfp, "%c", guess);
+						printf("guess: %c\n", guess);
+					}
+					fflush(clientfp);
+				}
 				exit(0);
 			}
 		}
