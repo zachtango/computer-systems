@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 		//parent - responsible for getting user input and sending to server
 		while(1) {
 			//get the user input - one char at a time and store it in guess
-			fgets(line, 1, stdin);
+			fgets(line, MAXLEN, stdin);
 		
 			// send the char to the server
 			// to avoid output getting stuck in the local buffer,
