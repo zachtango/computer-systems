@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
     char guess;
 
     fgets(line, MAXLEN, clientfp);
+    line[strlen(line) - 1] = '\0';
     printf("%s", line);
 
 	while (1) {
@@ -65,6 +66,7 @@ int main(int argc, char *argv[]) {
 		fflush(serverfp);
 		
 		fgets(line, MAXLEN, clientfp);
+        line[strlen(line) - 1] = '\0';
 		printf("%s", line);
 	}
 
