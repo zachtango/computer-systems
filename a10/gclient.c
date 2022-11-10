@@ -53,9 +53,7 @@ int main(int argc, char *argv[]) {
 
 	FILE *serverfp = fopen(serverfifo, "w");
 
-	while(1){
-    	fgets(line, MAXLEN, clientfp);
-    	line[strlen(line) - 1] = '\0';
+	while(fgets(line, MAXLEN, clientfp)){
     	printf("%s", line);
 
 		char guess;
