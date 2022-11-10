@@ -135,12 +135,14 @@ int main() {
 
 int hangman(FILE* serverfp, FILE* clientfp, char* word){ 
 	int n = strlen(word);
-	char display[n];
+	char display[n + 1];
 	printf("%s %d\n", word, n);
 
 
 	for(int i = 0; i < n; i++)
 		display[i] = '*';
+
+	display[n] = '\0';
 
 	int hidden = n;
 	int wrongGuesses = 0;
