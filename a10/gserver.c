@@ -151,6 +151,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 		char guess;
 		fgets(&guess, 1, serverfp);
+		fflush(serverfp);
 
 		printf("char: %c\n", guess);
 		
