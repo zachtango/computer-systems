@@ -159,7 +159,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 	char msg[MAXLEN];
 
-	fput(clientfp, "(Guess) Enter a letter in the word %s > \n", display);
+	fprintf(clientfp, "(Guess) Enter a letter in the word %s > \n", display);
 	fflush(clientfp);
 
 	while (fgets(buffer, MAXLEN, serverfp)) {
