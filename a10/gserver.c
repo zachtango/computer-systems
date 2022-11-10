@@ -157,7 +157,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		
 		int wrong = 1;
 		printf("%d", n);
-		// for(int i = 0; i < n; i++){
+		for(int i = 0; i < n; i++){
 		// 	// if(guess == word[i]){
 		// 	// 	wrong = 0;
 
@@ -172,7 +172,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		// 	// 	display[i] = guess;
 		// 	// 	hidden -= 1;
 		// 	// }
-		// }
+		}
 		
 
 		// if(wrong){
