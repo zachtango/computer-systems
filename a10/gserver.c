@@ -77,12 +77,14 @@ int main() {
 		strcpy(words[i], line);
 		i++;
 	}
-
+	
 	numWords = i;
 	printf("%d words were read.\n", numWords);
 
 	srand(getpid() + time(NULL) + getuid());
 	
+	close(fp);
+
 	//create a named pipes to read client's requests
 	char filename[MAXLEN];
 	sprintf(filename, "/tmp/%s-%d", getenv("USER"), getpid());
