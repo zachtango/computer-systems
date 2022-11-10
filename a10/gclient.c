@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
         printf(line);
 
         fgets(line, MAXLEN, clientfp);
+        line[strlen(line) - 1] = '\0';
         printf(line);
 	}
 
