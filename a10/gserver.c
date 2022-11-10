@@ -163,7 +163,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 					if(guess == display[i]){
 						printf("%c already\n", guess);
-						fprintf(clientfp, "%c is already in the word.\n", guess);
+						// fprintf(clientfp, "%c is already in the word.\n", guess);
 
 						break;
 					}
@@ -177,7 +177,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 			if(wrong){
 				printf("wrng\n");
-				fprintf(clientfp, "%c is not in the word.\n", guess);
+				// fprintf(clientfp, "%c is not in the word.\n", guess);
 
 				wrongGuesses += 1;
 			}
