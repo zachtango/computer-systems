@@ -52,7 +52,8 @@ int main(int argc, char *argv[]) {
 	fgets(line, MAXLEN, clientfp); //get rid of \n
 
 	FILE *serverfp = fopen(serverfifo, "w");
-    printf("Enter quote #s you want: ");
+    fgets(line, MAXLEN, clientfp);
+    puts(line);
 
 	if (fork()) {
 		//parent - responsible for getting user input and sending to server
