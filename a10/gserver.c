@@ -158,7 +158,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 
 	char guess;
 
-	printf("Enter a letter in word %s > ", display);
+	printf("Enter a letter in word %s > \n", display);
 	fprintf(clientfp, "Enter a letter in word %s > \n", display);
 	fflush(clientfp);
 
@@ -166,36 +166,36 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		printf("%s\n", buffer);
 		guess = buffer[0];
 
-		// if(isalpha(guess)){
-		// 	int wrong = 1;
+		if(isalpha(guess)){
+			int wrong = 1;
 
-		// 	for(int i = 0; i < n; i++){
-		// 		if(guess == word[i]){
-		// 			wrong = 0;
+			for(int i = 0; i < n; i++){
+				if(guess == word[i]){
+					wrong = 0;
 
-		// 			if(guess == display[i]){
-		// 				fprintf(clientfp, "%c is already in the word.\n", guess);
-		// 				fflush(clientfp);
-		// 				break;
-		// 			}
+					if(guess == display[i]){
+						fprintf(clientfp, "%c is already in the word.\n", guess);
+						fflush(clientfp);
+						break;
+					}
 
-		// 			// correct guess
-		// 			display[i] = guess;
-		// 			hidden -= 1;
-		// 		}
-		// 	}
+					// correct guess
+					display[i] = guess;
+					hidden -= 1;
+				}
+			}
 			
 
-		// 	if(wrong){
-		// 		fprintf(clientfp, "%c is not in the word.\n", guess);
-		// 		fflush(clientfp);
-		// 		wrongGuesses += 1;
-		// 	}
-		// }
+			if(wrong){
+				fprintf(clientfp, "%c is not in the word.\n", guess);
+				fflush(clientfp);
+				wrongGuesses += 1;
+			}
+		}
 		
-		// printf("Enter a letter in word %s > ", display);
-		// fprintf(clientfp, "Enter a letter in word %s > \n", display);
-		// fflush(clientfp);
+		printf("Enter a letter in word %s > ", display);
+		fprintf(clientfp, "Enter a letter in word %s > \n", display);
+		fflush(clientfp);
 	}
 
 	fprintf(clientfp, "The word is %s.\n", word);
