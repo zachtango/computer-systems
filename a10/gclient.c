@@ -53,20 +53,16 @@ int main(int argc, char *argv[]) {
 
 	FILE *serverfp = fopen(serverfifo, "w");
 
-    fgets(line, MAXLEN, clientfp); // get hangman msg
-    puts(line);
-
 	if (fork()) {
-        char *guess;
 		//parent - responsible for getting user input and sending to server
 		while(1) {
 			//get the user input - one char at a time and store it in guess
-			fgets(guess, 1, stdin);
+			fgets(line, 1, stdin);
 		
 			// send the char to the server
 			// to avoid output getting stuck in the local buffer,
 			// we need 2 things: \n and fflush()
-			fprintf(serverfp, "%c\n", guess);
+			fprintf(serverfp, "%s\n", line);
 			fflush(serverfp);
 		}
     } else { 
