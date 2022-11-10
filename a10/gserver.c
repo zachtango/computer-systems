@@ -133,16 +133,44 @@ int main() {
 	}
 }
 
-int hangman(FILE* serverfp, FILE* clientfp, char* word){
-	
-	int requestNum=0;
+int hangman(FILE* serverfp, FILE* clientfp, char* word){ 
+
+	int n = strlen(word);
+	char display[n];
+
+	for(int i = 0; i < n; i++)
+		display[i] = '*';
+
+	int hidden = n;
+	int wrongGuesses = 0;
+
 	char buffer[MAXLEN];
 
 	while (fgets(buffer, MAXLEN, serverfp)) {
+		char guess = buffer[0];
 
-		fprintf(clientfp, "%c\n", buffer[0]);
+		printf("char: %c\n", guess);
+
+		int wrong = 1;
+		for(int i = 0; i < n; i++){
+			if(guess == word[i]){
+				wrong = 0;
+
+				if(guess == display[i]){
+					break;
+				}
+
+				display[i] = guess;
+				hidden -= 1;
+			}
+		}
+
+		if(wrong){
+			wrongGuesses += 1;
+		}
+
+		fprintf(clientfp, "%s\n", display);
 		fflush(clientfp);
-		printf("char: %c\n", buffer[0]);
 	}
 
 }
