@@ -52,7 +52,7 @@ fork()
 int hangman(FILE*, FILE*, char*);
 
 char *words[MAXWORDS];
-int numWords=0;
+int numWords = 0;
 
 int main() {
 	char line[MAXLEN];
@@ -117,14 +117,16 @@ int main() {
 				
 				char guess;
 				char buffer[MAXLEN];
-				while(fgets(buffer, MAXLEN, serverfp)){
-					int n = scanf(buffer, "%c", guess);
-					if(n > 0){
-						fprintf(clientfp, "%c", guess);
-						printf("guess: %c\n", guess);
-					}
-					fflush(clientfp);
-				}
+				hangman(serverfp, clientfp, words[0]);
+				// while(fgets(buffer, MAXLEN, serverfp)){
+				// 	int n = scanf(buffer, "%c", guess);
+				// 	if(n > 0){
+				// 		fprintf(clientfp, "%c", guess);
+				// 		printf("guess: %c\n", guess);
+				// 	}
+				// 	fflush(clientfp);
+				// }
+
 				exit(0);
 			}
 		}
@@ -135,14 +137,14 @@ int main() {
 
 int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	
-	int n = strlen(word);
-	char* display;
+	// int n = strlen(word);
+	// char* display;
 
-	strcpy(display, word);
+	// strcpy(display, word);
 
-	for(int i = 0; i < n; i++){
-		display[i] = '*';
-	}
+	// for(int i = 0; i < n; i++){
+	// 	display[i] = '*';
+	// }
 
 	int hidden = n;
 	char buffer[MAXLEN];
