@@ -56,11 +56,11 @@ int main(int argc, char *argv[]) {
 	while(fgets(line, MAXLEN, clientfp)){
     	printf("%s", line);
 
-		char guess;
-		scanf("%c\n", &guess);
+		// char guess;
+		// scanf("%c\n", &guess);
 		
-		fprintf(serverfp, "%c\n", guess);
-		fflush(serverfp);
+		// fprintf(serverfp, "%c\n", guess);
+		// fflush(serverfp);
 	}
 	
 
