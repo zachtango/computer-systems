@@ -168,7 +168,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 				wrong = 0;
 
 				if(guess == display[i]){
-					strcpy(msg, "  is already in the word.\0");
+					strcpy(msg, "  is already in the word.\n\0");
 					msg[0] = guess;
 					break;
 				}
@@ -179,7 +179,7 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		}
 
 		if(wrong){
-			strcpy(msg, "  is not in the word.\0");
+			strcpy(msg, "  is not in the word.\n\0");
 			msg[0] = guess;
 			wrongGuesses += 1;
 		}
