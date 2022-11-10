@@ -59,6 +59,10 @@ int main(int argc, char *argv[]) {
 		char guess[10];
 		scanf("%s\n", guess);
 		printf("%s", guess);
+
+        fprintf(serverfp, "%s", guess);
+        fflush(serverfp);
+
 		// fprintf(serverfp, "%c\n", guess);
 		// fflush(serverfp);
 	}
