@@ -121,8 +121,7 @@ int main() {
 
 				FILE *serverfp = fopen(serverfifo, "r");
 				
-				if(clientfp && serverfp)
-					hangman(serverfp, clientfp, words[0]);
+				hangman(serverfp, clientfp, words[0]);
 
 				exit(0);
 			}
@@ -185,8 +184,4 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 		
 		
 	}
-
-	fprintf(clientfp, "The word is %s.\n", word);
-	fprintf(clientfp, "You missed %d times.\n", wrongGuesses);
-	fflush(clientfp);
 }
