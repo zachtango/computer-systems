@@ -143,43 +143,49 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	}
 
 	int hidden = n;
+	char buffer[MAXLEN];
 	int wrongGuesses = 0;
 
-	fprintf(clientfp, "Enter a letter in word %s >\n", display);
-	fflush(clientfp);
-	char guess;
+	while(1){
+		fprintf(clientfp, "Enter a letter in word %s > \n", display);
+		fflush(clientfp);
 
-	while(fgets(&guess, 1, serverfp)){		
-		
-		printf("char: %c\n", guess);
-		
-		int wrong = 1;
-		printf("%d", n);
-		for(int i = 0; i < n; i++){
-		// 	// if(guess == word[i]){
-		// 	// 	wrong = 0;
+		fgets(buffer, MAXLEN, serverfp);
+		printf("%s", buffer);
 
-		// 	// 	if(guess == display[i]){
-		// 	// 		printf("%c already\n", guess);
-		// 	// 		// fprintf(clientfp, "%c is already in the word.\n", guess);
+		char guess = buffer[0];
+		if(isalpha(guess)){
+			int wrong = 1;
+			printf("%d", n);
+			// for(int i = 0; i < n; i++){
+			// 	// if(guess == word[i]){
+			// 	// 	wrong = 0;
 
-		// 	// 		break;
-		// 	// 	}
+			// 	// 	if(guess == display[i]){
+			// 	// 		printf("%c already\n", guess);
+			// 	// 		// fprintf(clientfp, "%c is already in the word.\n", guess);
 
-		// 	// 	// correct guess
-		// 	// 	display[i] = guess;
-		// 	// 	hidden -= 1;
-		// 	// }
+			// 	// 		break;
+			// 	// 	}
+
+			// 	// 	// correct guess
+			// 	// 	display[i] = guess;
+			// 	// 	hidden -= 1;
+			// 	// }
+			// }
+			
+
+			if(wrong){
+				printf("wrng\n");
+				// fprintf(clientfp, "%c is not in the word.\n", guess);
+
+				wrongGuesses += 1;
+			}
 		}
 		
-
-		// if(wrong){
-		// 	printf("wrng\n");
-		// 	// fprintf(clientfp, "%c is not in the word.\n", guess);
-
-		// 	wrongGuesses += 1;
-		// }
-		
-		fgets(&guess, 1, serverfp); // remove \n
 	}
+
+	fprintf(clientfp, "The word is %s.\n", word);
+	fprintf(clientfp, "You missed %d times.\n", wrongGuesses);
+	fflush(clientfp);
 }
