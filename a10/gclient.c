@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
     fgets(line, MAXLEN, clientfp);
     line[strlen(line) - 1] = '\0';
-    printf("%s", line);
+    puts(line);
 
 	while (line[0] != 'T' || line[1] != 'h') {
         char guess =  getchar();
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 		
 		fgets(line, MAXLEN, clientfp);
         line[strlen(line) - 1] = '\0';
-		printf("%s", line);
+		puts(line);
 
 	}
 
