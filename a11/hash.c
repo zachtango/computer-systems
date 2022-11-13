@@ -108,7 +108,7 @@ void *hash( void *ptr )
     strcat(conc, rightH);
 
     // compute final hash
-    h = jenkinsHash(conc);
+    h = jenkinsHash(conc, strlen(conc));
 
     return (void *) h;
 }
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
     struct stat st;
     int fd = fileno(fp);
     fstat(fd, &st);
-    off_t size = st.st_size;
+    size_t size = st.st_size;
 
     n = size / BLOCK_SIZE;    
     m = atoi(argv[2]);
