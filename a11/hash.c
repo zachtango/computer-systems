@@ -92,7 +92,7 @@ void *hash( void *ptr )
     fread(key, 1, blocksPerThread * BLOCK_SIZE, fp);
 
     // compute hash for key
-    uint32_t h = jenkinsHash(key);
+    uint32_t h = jenkinsHash(key, blocksPerThread);
 
     char *H;
     sprintf(H, "%zu", h);
@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
     m = atoi(argv[2]);
     blocksPerThread = n / m;
 
-    uint32_t h = hash(0);
+    uint32_t h = (uint32_t) hash(0);
 
     return 0;
 }
