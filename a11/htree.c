@@ -86,7 +86,7 @@ void *hash( void *ptr )
     uint8_t *key = malloc(bytesPerThread);
     
     // read n / m blocks into key
-    fseek(fp, i * bytesPerThread, SEEK_SET);
+    fseek(fp, 9 * bytesPerThread, SEEK_SET);
     fread(key, 1, bytesPerThread, fp);
     
     printf("i: %d\n", i);
