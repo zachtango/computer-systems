@@ -121,7 +121,7 @@ void *hash( void *ptr )
     strcat(conc, leftH);
     strcat(conc, rightH);
 
-    printf("Conc: %s"
+    printf("Conc: %s\n"
         "H: %s L: %s R: %s\n", conc, H, leftH, rightH);
 
     // compute final hash
