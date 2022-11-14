@@ -72,8 +72,7 @@ void *hash( void *ptr )
 {
 	int i = (int) ptr;
 
-	// if (i >= m)  // not a node (base case)
-	// 	return "";
+	printf("i: %d\n", i);
 
     int left = 2 * i + 1;
     int right = left + 1;
