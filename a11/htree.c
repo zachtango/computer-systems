@@ -93,12 +93,9 @@ void *hash( void *ptr )
 
     // compute hash for key
     uint32_t h = jenkinsHash(key, bytesPerThread);
-    printf("h: %zu\n", h);
+    
     char *H = malloc(numDigits(h) + 1);
     sprintf(H, "%zu", h);
-
-    printf("H: %s\n", H);
-
 
     if(left >= m && right >= m) return (void *) h;
 
@@ -119,14 +116,13 @@ void *hash( void *ptr )
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
 
-    printf("H: %s L: %s R: %s\n", H, leftH, rightH);
-
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     strcpy(conc, H);
     strcat(conc, leftH);
     strcat(conc, rightH);
 
-    printf("conc: %s\n", conc);
+    printf("Conc: %s"
+        "H: %s L: %s R: %s\n", conc, H, leftH, rightH);
 
     // compute final hash
     h = jenkinsHash(conc, strlen(conc));
