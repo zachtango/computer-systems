@@ -98,8 +98,8 @@ void *hash( void *ptr )
     // compute hash for key
     uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
     printf("h: %zu\n", h);
-    // char *H = malloc(numDigits(h) + 1);
-    // sprintf(H, "%zu", h);
+    char *H = malloc(numDigits(h) + 1);
+    sprintf(H, "%zu", h);
 
     char *lh, rh;
     char *leftH = "", *rightH = "";
