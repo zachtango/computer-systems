@@ -147,7 +147,14 @@ int main(int argc, char *argv[]) {
         "m: %d\n"
         "blocks per thread: %d\n", size, n, m, blocksPerThread);
 
-    uint32_t h = (uint32_t) hash(0);
+    pthread_t thr;
+
+    pthread_create(&thr, NULL, hash, (void *) 0);
+
+    void *ptr;
+    pthread_join(thr, &ptr);
+
+    printf("%zu\n", (uint32_t) ptr);
 
 
     return 0;
