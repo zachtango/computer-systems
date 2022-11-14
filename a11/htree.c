@@ -72,8 +72,6 @@ void *hash( void *ptr )
 {
 	int i = (int) ptr;
 
-	printf("i: %d\n", i);
-
     int left = 2 * i + 1;
     int right = left + 1;
 
@@ -89,6 +87,8 @@ void *hash( void *ptr )
     // read n / m blocks into key
     fseek(fp, i * blocksPerThread * BLOCK_SIZE, SEEK_SET);
     fread(key, 1, blocksPerThread * BLOCK_SIZE, fp);
+    
+    printf("i: %d\n", i);
 
     for(int j = 0; j < blocksPerThread; j++)
         printf("%c", key[j]);
