@@ -78,13 +78,13 @@ void *hash( void *ptr )
     pthread_t thread1, thread2;
 
     // calc child hashes
-    if(left < m) {
-        pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
-    }
+    if(left < m) 
+        if(ifpthread_create(&thread1, NULL, hash, (void *) left) != 0)
+            printf("thread %d failed to be created (likely hardware limitation)\n", left);
     
-    if(right < m){
-        pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
-    }
+    if(right < m)
+        if(pthread_create(&thread2, NULL, hash, (void *) right) != 0)
+            printf("thread %d failed to be created (likely hardware limitation)\n", left);
 
     size_t bytesPerThread = blocksPerThread * BLOCK_SIZE;
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
