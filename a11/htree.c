@@ -106,14 +106,14 @@ void *hash( void *ptr )
 
     if(left < m) {
         pthread_join(thread1, &lh);
-
+        printf("i: %d lh: %zu\n", i, (uint32_t) lh);
         leftH = malloc(numDigits( (uint32_t) lh ) + 1);
         sprintf(leftH, "%zu", (uint32_t) lh);
     }
 
     if(right < m) {
         pthread_join(thread2, &rh);
-
+        printf("i: %d rh: %zu\n", i, (uint32_t) rh);
         rightH = malloc(numDigits( (uint32_t) rh ) + 1);
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
