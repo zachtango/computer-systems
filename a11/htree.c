@@ -100,8 +100,6 @@ void *hash( void *ptr )
     char *H = malloc(numDigits(h) + 1);
     sprintf(H, "%zu", h);
 
-    printf("i: %d h: %zu\n", i, h);
-
     if(left >= m && right >= m) return (void *) h;
 
     uint32_t *lh, rh;
