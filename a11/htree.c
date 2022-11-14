@@ -90,6 +90,10 @@ void *hash( void *ptr )
     fseek(fp, i * blocksPerThread * BLOCK_SIZE, SEEK_SET);
     fread(key, 1, blocksPerThread * BLOCK_SIZE, fp);
 
+    for(int j = 0; j < blocksPerThread; j++)
+        printf("%c", key[j]);
+    printf("\n");
+
     // compute hash for key
     uint32_t h = jenkinsHash(key, blocksPerThread);
 
