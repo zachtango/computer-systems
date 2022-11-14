@@ -119,7 +119,7 @@ void *hash( void *ptr )
     // // compute final hash
     // h = jenkinsHash(conc, strlen(conc));
 
-    return (void *) h;
+    return (void *) 0;
 }
 
 int main(int argc, char *argv[]) {	
