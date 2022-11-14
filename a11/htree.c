@@ -100,23 +100,23 @@ void *hash( void *ptr )
     printf("H: %s\n", H);
 
 
-    // if(left >= m && right >= m) return (void *) h;
+    if(left >= m && right >= m) return (void *) h;
 
-    // uint32_t lh, rh;
-    // char *leftH = "", *rightH = "";
+    char *lh, rh;
+    char *leftH = "", *rightH = "";
 
-    if(left < m) pthread_join(thread1, NULL);
-    if(right < m) pthread_join(thread2, NULL); 
+    if(left < m) pthread_join(thread1, &lh);
+    if(right < m) pthread_join(thread2, &rh); 
 
-    // printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
+    printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
-    // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
-    // strcpy(conc, H);
-    // strcat(conc, leftH);
-    // strcat(conc, rightH);
+    char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
+    strcpy(conc, H);
+    strcat(conc, leftH);
+    strcat(conc, rightH);
 
-    // // compute final hash
-    // h = jenkinsHash(conc, strlen(conc));
+    // compute final hash
+    h = jenkinsHash(conc, strlen(conc));
 
     return (void *) h;
 }
