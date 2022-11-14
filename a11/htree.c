@@ -79,7 +79,7 @@ void *hash( void *ptr )
 
     // calc child hashes
     if(left < m) 
-        if(ifpthread_create(&thread1, NULL, hash, (void *) left) != 0)
+        if(pthread_create(&thread1, NULL, hash, (void *) left) != 0)
             printf("thread %d failed to be created (likely hardware limitation)\n", left);
     
     if(right < m)
