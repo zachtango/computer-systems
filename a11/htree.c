@@ -109,8 +109,6 @@ void *hash( void *ptr )
     if(left < m) pthread_join(thread1, &lh);
     if(right < m) pthread_join(thread2, &rh); 
 
-    h = 0;
-
     printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
