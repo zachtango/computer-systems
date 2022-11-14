@@ -5,7 +5,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#define BLOCK_SIZE 1
+#define BLOCK_SIZE 4096
 
 uint32_t n, m, blocksPerThread;
 FILE *fp;
