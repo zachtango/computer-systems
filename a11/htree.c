@@ -103,7 +103,7 @@ void *hash( void *ptr )
 
     char *lh, rh;
     char *leftH = "", *rightH = "";
-
+    printf("lh: %zu, rh: %zu\n", (uint32_t) lh, (uint32_t) rh);
     if(left < m) {
         pthread_join(thread1, &lh);
 
