@@ -103,7 +103,7 @@ void *hash( void *ptr )
 
     char *lh, rh;
     char *leftH = "", *rightH = "";
-    printf("lh: %zu, rh: %zu\n", (uint32_t) lh, (uint32_t) rh);
+
     if(left < m) {
         pthread_join(thread1, &lh);
 
@@ -117,6 +117,8 @@ void *hash( void *ptr )
         rightH = malloc(numDigits( (uint32_t) rh ) + 1);
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
+
+    printf("lh: %zu, rh: %zu\n", (uint32_t) lh, (uint32_t) rh);
 
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     strcpy(conc, H);
