@@ -85,7 +85,7 @@ void *hash( void *ptr )
     printf("long: %lu\n", bytesPerThread);
     printf("i: %d\n", i);
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
-    uint8_t key[bytesPerThread];
+    uint8_t *key = malloc(bytesPerThread);
     
     // read n / m blocks into key
     fseek(fp, i * bytesPerThread, SEEK_SET);
