@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+uint32_t numDigits(uint32_t num){
+    uint32_t counter = 0;
+    
+    while(num > 0){
+        counter += 1;
+        num /= 10;
+    }
+
+    return counter;
+}
+
 int main(){
 
     char *src1 = "a";
@@ -21,7 +32,7 @@ int main(){
     uint32_t test = 3121231233;    
     sprintf(dst2, "%zu", test);
 
-    printf("%s", dst2);
+    printf("%d", numDigits(1946267830));
 
     return 0;
 }

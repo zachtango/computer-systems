@@ -99,7 +99,7 @@ void *hash( void *ptr )
     uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
     printf("h: %zu\n", h);
     char *H = malloc(numDigits(h) + 1);
-    sprintf(H, "%zu", h);
+    // sprintf(H, "%zu", h);
 
     char *leftH = "", *rightH = "";
 
