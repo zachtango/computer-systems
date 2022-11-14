@@ -105,8 +105,19 @@ void *hash( void *ptr )
     char *lh, rh;
     char *leftH = "", *rightH = "";
 
-    if(left < m) pthread_join(thread1, &lh);
-    if(right < m) pthread_join(thread2, &rh); 
+    if(left < m) {
+        pthread_join(thread1, &lh);
+
+        leftH = malloc(numDigits( (uint32_t) lh ) + 1);
+        sprintf(rightH, "%zu", (uint32_t) lh);
+    }
+
+    if(right < m) {
+        pthread_join(thread2, &rh);
+
+        rightH = malloc(numDigits( (uint32_t) rh ) + 1));
+        sprintf(rightH, "%zu", (uint32_t) rh);
+    }
 
     printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
