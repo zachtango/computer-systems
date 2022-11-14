@@ -101,7 +101,7 @@ void *hash( void *ptr )
     // char *H = malloc(numDigits(h) + 1);
     // sprintf(H, "%zu", h);
 
-    void *lh, rh;
+    char *lh, rh;
     char *leftH = "", *rightH = "";
 
     if(left < m) pthread_join(thread1, &lh);
