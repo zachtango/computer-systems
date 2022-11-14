@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
     printf(
         "n: %d\n"
         "m: %d\n"
-        "blocks per thread: %d\n", blocksPerThread, n, m);
+        "blocks per thread: %d\n", n, m, blocksPerThread);
 
     uint32_t h = (uint32_t) hash(0);
 
