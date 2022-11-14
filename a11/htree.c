@@ -5,7 +5,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#define BLOCK_SIZE 4096
+#define BLOCK_SIZE 1
 
 uint32_t n, m, blocksPerThread;
 FILE *fp;
@@ -81,31 +81,27 @@ void *hash( void *ptr )
     if(left < m) pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
     if(right < m) pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
 
-    unsigned long int bytesPerThread = blocksPerThread * BLOCK_SIZE;
-    printf("long: %lu\n", bytesPerThread);
-    printf("i: %d\n", i);
+    size_t bytesPerThread = blocksPerThread * BLOCK_SIZE;
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
     uint8_t *key = malloc(bytesPerThread);
     
     // read n / m blocks into key
     fseek(fp, i * bytesPerThread, SEEK_SET);
-    // fread(key, 1, bytesPerThread, fp);
+    fread(key, 1, bytesPerThread, fp);
     
-    
+    printf("i: %d\n", i);
 
-    // for(unsigned long int j = 0; j < bytesPerThread; j++)
-    //     printf("%c", key[j]);
-    // printf("\n");
+    for(int j = 0; j < bytesPerThread; j++)
+        printf("%c", key[j]);
+    printf("\n");
 
-    // // compute hash for key
+    // compute hash for key
     // uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
     // printf("h: %zu\n", h);
     // char *H = malloc(numDigits(h) + 1);
-    // sprintf(H, "%zu", h);
+    // // sprintf(H, "%zu", h);
 
-    // if(left >= m && right >= m) return (void *) h;
-
-    // char *lh, rh;
+    // uint32_t lh, rh;
     // char *leftH = "", *rightH = "";
 
     // if(left < m) pthread_join(thread1, &lh);
@@ -113,7 +109,7 @@ void *hash( void *ptr )
 
     // h = 0;
 
-    // printf("lv: %zu rv: %zu L: %s R: %s\n", (uint32_t) lh, (uint32_t) rh, leftH, rightH);
+    // printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
     // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     // strcpy(conc, H);
@@ -123,9 +119,7 @@ void *hash( void *ptr )
     // // compute final hash
     // h = jenkinsHash(conc, strlen(conc));
 
-    // return (void *) h;
-
-    return (void *) 0;
+    return (void *) h;
 }
 
 int main(int argc, char *argv[]) {	
