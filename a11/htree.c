@@ -118,7 +118,7 @@ void *hash( void *ptr )
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
 
-    printf("lh: %zu, rh: %zu\n", (uint32_t) lh, (uint32_t) rh);
+    printf("i: %d lh: %zu, rh: %zu\n", i, (uint32_t) lh, (uint32_t) rh);
 
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     strcpy(conc, H);
