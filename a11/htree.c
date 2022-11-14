@@ -82,7 +82,7 @@ void *hash( void *ptr )
     if(right < m) pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
 
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
-    uint8_t key[blocksPerThread];
+    uint8_t key[blocksPerThread * BLOCK_SIZE];
     
     // read n / m blocks into key
     fseek(fp, i * blocksPerThread * BLOCK_SIZE, SEEK_SET);
