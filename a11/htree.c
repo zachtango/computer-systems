@@ -94,26 +94,26 @@ void *hash( void *ptr )
         printf("%c", key[j]);
     printf("\n");
 
-    // compute hash for key
-    uint32_t h = jenkinsHash(key, blocksPerThread);
+    // // compute hash for key
+    // uint32_t h = jenkinsHash(key, blocksPerThread);
 
-    char *H;
-    sprintf(H, "%zu", h);
+    // char *H;
+    // sprintf(H, "%zu", h);
 
-    char *leftH = "", *rightH = "";
+    // char *leftH = "", *rightH = "";
 
-    if(left < m) pthread_join(thread1, &leftH);
-    if(right < m) pthread_join(thread2, &rightH); 
+    // if(left < m) pthread_join(thread1, &leftH);
+    // if(right < m) pthread_join(thread2, &rightH); 
 
-    char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
-    strcpy(conc, H);
-    strcat(conc, leftH);
-    strcat(conc, rightH);
+    // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
+    // strcpy(conc, H);
+    // strcat(conc, leftH);
+    // strcat(conc, rightH);
 
-    // compute final hash
-    h = jenkinsHash(conc, strlen(conc));
+    // // compute final hash
+    // h = jenkinsHash(conc, strlen(conc));
 
-    return (void *) h;
+    // return (void *) h;
 }
 
 int main(int argc, char *argv[]) {	
