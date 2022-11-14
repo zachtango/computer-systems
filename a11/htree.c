@@ -101,7 +101,7 @@ void *hash( void *ptr )
 
     if(left >= m && right >= m) return (void *) h;
 
-    char *lh, rh;
+    uint32_t *lh, rh;
     char *leftH = "", *rightH = "";
 
     if(left < m) {
