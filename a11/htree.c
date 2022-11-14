@@ -91,35 +91,35 @@ void *hash( void *ptr )
     
     printf("i: %d\n", i);
 
-    for(int j = 0; j < bytesPerThread; j++)
-        printf("%c", key[j]);
-    printf("\n");
+    // for(int j = 0; j < bytesPerThread; j++)
+    //     printf("%c", key[j]);
+    // printf("\n");
 
     // compute hash for key
-    // uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
-    // printf("h: %zu\n", h);
-    // char *H = malloc(numDigits(h) + 1);
-    // // sprintf(H, "%zu", h);
+    uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
+    printf("h: %zu\n", h);
+    char *H = malloc(numDigits(h) + 1);
+    sprintf(H, "%zu", h);
 
-    // uint32_t lh, rh;
-    // char *leftH = "", *rightH = "";
+    uint32_t lh, rh;
+    char *leftH = "", *rightH = "";
 
-    // if(left < m) pthread_join(thread1, &lh);
-    // if(right < m) pthread_join(thread2, &rh); 
+    if(left < m) pthread_join(thread1, &lh);
+    if(right < m) pthread_join(thread2, &rh); 
 
-    // h = 0;
+    h = 0;
 
-    // printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
+    printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
-    // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
-    // strcpy(conc, H);
-    // strcat(conc, leftH);
-    // strcat(conc, rightH);
+    char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
+    strcpy(conc, H);
+    strcat(conc, leftH);
+    strcat(conc, rightH);
 
-    // // compute final hash
-    // h = jenkinsHash(conc, strlen(conc));
+    // compute final hash
+    h = jenkinsHash(conc, strlen(conc));
 
-    return (void *) 0;
+    return (void *) h;
 }
 
 int main(int argc, char *argv[]) {	
