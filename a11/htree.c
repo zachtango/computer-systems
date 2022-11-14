@@ -109,7 +109,7 @@ void *hash( void *ptr )
         pthread_join(thread1, &lh);
 
         leftH = malloc(numDigits( (uint32_t) lh ) + 1);
-        sprintf(rightH, "%zu", (uint32_t) lh);
+        sprintf(leftH, "%zu", (uint32_t) lh);
     }
 
     if(right < m) {
@@ -121,13 +121,13 @@ void *hash( void *ptr )
 
     printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
 
-    // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
-    // strcpy(conc, H);
-    // strcat(conc, leftH);
-    // strcat(conc, rightH);
+    char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
+    strcpy(conc, H);
+    strcat(conc, leftH);
+    strcat(conc, rightH);
 
-    // // compute final hash
-    // h = jenkinsHash(conc, strlen(conc));
+    // compute final hash
+    h = jenkinsHash(conc, strlen(conc));
 
     return (void *) h;
 }
