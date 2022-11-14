@@ -78,8 +78,13 @@ void *hash( void *ptr )
     pthread_t thread1, thread2;
 
     // calc child hashes
-    if(left < m) pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
-    if(right < m) pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
+    if(left < m) {
+        pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
+    }
+    
+    if(right < m){
+        pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
+    }
 
     size_t bytesPerThread = blocksPerThread * BLOCK_SIZE;
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
@@ -88,8 +93,6 @@ void *hash( void *ptr )
     // read n / m blocks into key
     fseek(fp, i * bytesPerThread, SEEK_SET);
     fread(key, 1, bytesPerThread, fp);
-    
-    printf("i: %d\n", i);
 
     // compute hash for key
     uint32_t h = jenkinsHash(key, bytesPerThread);
@@ -106,19 +109,17 @@ void *hash( void *ptr )
 
     if(left < m) {
         pthread_join(thread1, &lh);
-        printf("i: %d lh: %zu\n", i, (uint32_t) lh);
+        printf("thread %d returned %zu\n", left, (uint32_t) lh);
         leftH = malloc(numDigits( (uint32_t) lh ) + 1);
         sprintf(leftH, "%zu", (uint32_t) lh);
     }
 
     if(right < m) {
         pthread_join(thread2, &rh);
-        printf("i: %d rh: %zu\n", i, (uint32_t) rh);
+        printf("thread %d returned %zu\n", right, (uint32_t) rh);
         rightH = malloc(numDigits( (uint32_t) rh ) + 1);
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
-
-    printf("i: %d lh: %zu, rh: %zu\n", i, (uint32_t) lh, (uint32_t) rh);
 
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     strcpy(conc, H);
@@ -127,11 +128,6 @@ void *hash( void *ptr )
 
     // compute final hash
     h = jenkinsHash(conc, strlen(conc));
-
-    printf("i: %d\n"
-        "h: %zu\n"
-        "Conc: %s\n"
-        "H: %s L: %s R: %s\n", i, h, conc, H, leftH, rightH);
 
     return (void *) h;
 }
