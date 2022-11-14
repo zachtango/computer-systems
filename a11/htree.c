@@ -134,10 +134,10 @@ int main(int argc, char *argv[]) {
     m = atoi(argv[2]);
     blocksPerThread = n / m;
 
-    printf("
-        n: %d\n
-        m: %d\n
-        blocks per thread: %d\n", blocksPerThread, n, m);
+    printf(
+        "n: %d\n"
+        "m: %d\n"
+        "blocks per thread: %d\n", blocksPerThread, n, m);
 
     uint32_t h = (uint32_t) hash(0);
 
