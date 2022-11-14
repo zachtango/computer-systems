@@ -81,7 +81,8 @@ void *hash( void *ptr )
     if(left < m) pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
     if(right < m) pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
 
-    long int bytesPerThread = blocksPerThread * BLOCK_SIZE;
+    unsigned long int bytesPerThread = blocksPerThread * BLOCK_SIZE;
+    printf("long: %lu\n", bytesPerThread);
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
     uint8_t key[bytesPerThread];
     
@@ -91,7 +92,7 @@ void *hash( void *ptr )
     
     printf("i: %d\n", i);
 
-    for(long int j = 0; j < bytesPerThread; j++)
+    for(unsigned long int j = 0; j < bytesPerThread; j++)
         printf("%c", key[j]);
     printf("\n");
 
