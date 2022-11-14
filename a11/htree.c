@@ -101,23 +101,25 @@ void *hash( void *ptr )
     char *H = malloc(numDigits(h) + 1);
     sprintf(H, "%zu", h);
 
+    if(left >= m && right >= m) return (void *) h;
+
     char *lh, rh;
     char *leftH = "", *rightH = "";
 
     if(left < m) pthread_join(thread1, &lh);
     if(right < m) pthread_join(thread2, &rh); 
 
-    h = 0;
+    // h = 0;
 
-    printf("lv: %zu rv: %zu L: %s R: %s\n", (uint32_t) lh, (uint32_t) rh, leftH, rightH);
+    // printf("lv: %zu rv: %zu L: %s R: %s\n", (uint32_t) lh, (uint32_t) rh, leftH, rightH);
 
-    char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
-    strcpy(conc, H);
-    strcat(conc, leftH);
-    strcat(conc, rightH);
+    // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
+    // strcpy(conc, H);
+    // strcat(conc, leftH);
+    // strcat(conc, rightH);
 
-    // compute final hash
-    h = jenkinsHash(conc, strlen(conc));
+    // // compute final hash
+    // h = jenkinsHash(conc, strlen(conc));
 
     return (void *) h;
 }
