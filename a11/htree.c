@@ -10,8 +10,8 @@
 uint32_t n, m, blocksPerThread;
 FILE *fp;
 
-uint32_t jenkinsHash(const uint8_t* key, size_t len){
-    size_t i = 0;
+uint32_t jenkinsHash(const uint8_t* key, uint64_t len){
+    uint64_t i = 0;
     uint32_t hash = 0;
     while(i != len){
         hash += key[i];
