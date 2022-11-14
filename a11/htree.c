@@ -81,22 +81,23 @@ void *hash( void *ptr )
     if(left < m) pthread_create(&thread1, NULL, hash, (void *) (2 * i + 1));
     if(right < m) pthread_create(&thread2, NULL, hash, (void *) (2 * i + 2));
 
+    size_t bytesPerThread = blocksPerThread * BLOCK_SIZE;
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
-    uint8_t key[blocksPerThread * BLOCK_SIZE];
+    uint8_t key[bytesPerThread];
     
     // read n / m blocks into key
-    fseek(fp, i * blocksPerThread * BLOCK_SIZE, SEEK_SET);
-    fread(key, 1, blocksPerThread * BLOCK_SIZE, fp);
+    fseek(fp, i * bytesPerThread, SEEK_SET);
+    fread(key, 1, bytesPerThread, fp);
     
     printf("i: %d\n", i);
 
-    for(int j = 0; j < blocksPerThread; j++)
+    for(int j = 0; j < bytesPerThread; j++)
         printf("%c", key[j]);
     printf("\n");
 
-    // // compute hash for key
-    // uint32_t h = jenkinsHash(key, blocksPerThread);
-
+    // compute hash for key
+    uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
+    printf("h: %d\n", h);
     // char *H;
     // sprintf(H, "%zu", h);
 
