@@ -107,6 +107,7 @@ void *hash( void *ptr )
 
     if(left < m) {
         pthread_join(thread1, &lh);
+        
         printf("thread %d returned %zu\n", left, (uint32_t) lh);
         leftH = malloc(numDigits( (uint32_t) lh ) + 1);
         sprintf(leftH, "%zu", (uint32_t) lh);
@@ -114,6 +115,7 @@ void *hash( void *ptr )
 
     if(right < m) {
         pthread_join(thread2, &rh);
+
         printf("thread %d returned %zu\n", right, (uint32_t) rh);
         rightH = malloc(numDigits( (uint32_t) rh ) + 1);
         sprintf(rightH, "%zu", (uint32_t) rh);
@@ -161,10 +163,10 @@ int main(int argc, char *argv[]) {
 
     pthread_create(&thr, NULL, hash, (void *) 0);
 
-    void *ptr;
-    pthread_join(thr, &ptr);
+    uint32_t *h;
+    pthread_join(thr, &h);
 
-    printf("%zu\n", (uint32_t) ptr);
+    printf("final hash: %zu\n", (uint32_t) h);
 
 
     return 0;
