@@ -119,12 +119,14 @@ void *hash( void *ptr )
         sprintf(rightH, "%zu", (uint32_t) rh);
     }
 
-    printf("lv: %zu rv: %zu L: %s R: %s\n", lh, rh, leftH, rightH);
+    printf("H: %s L: %s R: %s\n", H, leftH, rightH);
 
     char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     strcpy(conc, H);
     strcat(conc, leftH);
     strcat(conc, rightH);
+
+    printf("conc: %s\n", conc);
 
     // compute final hash
     h = jenkinsHash(conc, strlen(conc));
