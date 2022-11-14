@@ -85,15 +85,15 @@ void *hash( void *ptr )
     // calc assigned hash (i --> from i * n / m to i * n / m + n / m)
     uint8_t key[bytesPerThread];
     
-    // read n / m blocks into key
-    fseek(fp, i * bytesPerThread, SEEK_SET);
-    fread(key, 1, bytesPerThread, fp);
+    // // read n / m blocks into key
+    // fseek(fp, i * bytesPerThread, SEEK_SET);
+    // fread(key, 1, bytesPerThread, fp);
     
-    printf("i: %d\n", i);
+    // printf("i: %d\n", i);
 
-    for(int j = 0; j < bytesPerThread; j++)
-        printf("%c", key[j]);
-    printf("\n");
+    // for(int j = 0; j < bytesPerThread; j++)
+    //     printf("%c", key[j]);
+    // printf("\n");
 
     // // compute hash for key
     // uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
