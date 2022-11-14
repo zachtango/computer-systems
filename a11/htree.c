@@ -100,10 +100,10 @@ void *hash( void *ptr )
     // char *H;
     // sprintf(H, "%zu", h);
 
-    // char *leftH = "", *rightH = "";
+    char *leftH = "", *rightH = "";
 
-    // if(left < m) pthread_join(thread1, &leftH);
-    // if(right < m) pthread_join(thread2, &rightH); 
+    if(left < m) pthread_join(thread1, &leftH);
+    if(right < m) pthread_join(thread2, &rightH); 
 
     // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     // strcpy(conc, H);
@@ -144,6 +144,7 @@ int main(int argc, char *argv[]) {
         "blocks per thread: %d\n", size, n, m, blocksPerThread);
 
     uint32_t h = (uint32_t) hash(0);
+
 
     return 0;
 }
