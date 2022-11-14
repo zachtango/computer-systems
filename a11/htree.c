@@ -5,7 +5,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#define BLOCK_SIZE 4096
+#define BLOCK_SIZE 1
 
 uint32_t n, m, blocksPerThread;
 FILE *fp;
@@ -115,7 +115,7 @@ void *hash( void *ptr )
 
 int main(int argc, char *argv[]) {	
 	if (argc != 3) {
-		puts("Usage: htell <filename> <num_threads>");
+		puts("Usage: htree <filename> <num_threads>");
 		exit(1);
 	}
 
@@ -133,6 +133,11 @@ int main(int argc, char *argv[]) {
     n = size / BLOCK_SIZE;    
     m = atoi(argv[2]);
     blocksPerThread = n / m;
+
+    printf("
+        n: %d\n
+        m: %d\n
+        blocks per thread: %d\n", blocksPerThread, n, m);
 
     uint32_t h = (uint32_t) hash(0);
 
