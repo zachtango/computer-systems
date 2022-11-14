@@ -97,14 +97,16 @@ void *hash( void *ptr )
 
     // compute hash for key
     uint32_t h = jenkinsHash(key, bytesPerThread * BLOCK_SIZE);
-    printf("h: %d\n", h);
-    // char *H;
-    // sprintf(H, "%zu", h);
+    
+    char *H;
+    sprintf(H, "%zu", h);
 
     char *leftH = "", *rightH = "";
 
     if(left < m) pthread_join(thread1, &leftH);
     if(right < m) pthread_join(thread2, &rightH); 
+
+    printf("H: %s L: %s R: %s\n", H, leftH, rightH);
 
     // char *conc = malloc(strlen(H) + strlen(leftH) + strlen(rightH) + 1);
     // strcpy(conc, H);
