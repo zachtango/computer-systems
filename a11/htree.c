@@ -126,7 +126,7 @@ void *hash( void *ptr )
     strcat(conc, leftH);
     strcat(conc, rightH);
 
-    printf("i: %d conc: %s H: %s L: %s R: %s\n", i, conc, H, leftH, rightH);
+    // printf("i: %d conc: %s H: %s L: %s R: %s\n", i, conc, H, leftH, rightH);
 
     // compute final hash
     h = jenkinsHash(conc, strlen(conc));
