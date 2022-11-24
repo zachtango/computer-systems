@@ -92,7 +92,11 @@ int main()
 				r = (rand() * rand()) % numWords;
 			}
 
-			hangman(msgid3, msgid2, words[r]);
+			char wordCopy[strlen(words[r]) + 1];
+
+			strcpy(wordCopy, words[r]);
+
+			hangman(msgid3, msgid2, wordCopy);
 		}
   	} 
   
