@@ -53,11 +53,17 @@ int main(int argc, char *argv[])
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
         printf(message.mesg_text);
 
+        if(message.mesg_text[0] == "T"){
+            break;
+        }
+
         fgets(message.mesg_text, MAX, stdin);
         msgsnd(msgid3, &message, sizeof(message), 0);
 
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
         printf("%s\n", message.mesg_text);
+
+
     }
 
 	//delete the message queue since we are done!
