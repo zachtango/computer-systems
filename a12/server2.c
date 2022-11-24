@@ -92,7 +92,6 @@ int main()
 int hangman(int msgid2, char *word){
 	int n = strlen(word);
 	char display[n + 1];
-	printf("%s %d\n", word, n);
 
 	for(int i = 0; i < n; i++)
 		display[i] = '*';
