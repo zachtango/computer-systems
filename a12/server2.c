@@ -84,8 +84,6 @@ int main()
 			int key3 = ftok(getenv("HOME"), counter);
 			int msgid3 = msgget(key3, 0666 | IPC_CREAT); // for reading
 
-			counter += 1;
-
 			int r = (rand() * rand()) % numWords;
 
 			while(r < 0 || r >= numWords){
@@ -97,6 +95,8 @@ int main()
 			strcpy(wordCopy, words[r]);
 
 			hangman(msgid3, msgid2, wordCopy);
+		} else{
+			counter += 1;
 		}
   	} 
   
