@@ -51,13 +51,13 @@ int main(int argc, char *argv[])
 
     while(1){
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
-        printf("Data Received is : %s \n", message.mesg_text);
+        printf(message.mesg_text);
 
         fgets(message.mesg_text, MAX, stdin);
         msgsnd(msgid3, &message, sizeof(message), 0);
 
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
-        printf("Data Received is : %s \n", message.mesg_text);
+        printf("%s\n", message.mesg_text);
     }
 
 	//delete the message queue since we are done!

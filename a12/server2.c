@@ -124,24 +124,28 @@ int hangman(int msgidRead, int msgidWrite, char *word){
 				wrong = 0;
 
 				if(guess == display[i]){
-					sprintf(message.mesg_text, "%c is already in the word.\n\0", guess);
+					sprintf(message.mesg_text, "%c is already in the word.", guess);
 					break;
 				}
 
-				strcpy(message.mesg_text, "Good guess!\n\0");
+				strcpy(message.mesg_text, "Good guess!");
 				display[i] = guess;
 				hidden -= 1;
 			}
 		}
 
 		if(wrong){
-			sprintf(message.mesg_text, "%c is not in the word.\n\0", guess);
+			sprintf(message.mesg_text, "%c is not in the word.", guess);
 			wrongGuesses += 1;
 		}
 
 		msgsnd(msgidWrite, &message, sizeof(message), 0);
 
 	}
+
+	sprintf(message.mesg_text, "The word is %s. You missed %d times.", word, wrongGuesses);
+
+	msgsnd(msgidWrite, &message, sizeof(message), 0);
 }
 
 
