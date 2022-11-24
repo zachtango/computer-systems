@@ -86,8 +86,13 @@ int main()
 
 			counter += 1;
 
-			char* word = "test";
-			hangman(msgid3, msgid2, word);
+			int r = (rand() * rand()) % numWords;
+
+			while(r < 0 || r >= numWords){
+				r = (rand() * rand()) % numWords;
+			}
+
+			hangman(msgid3, msgid2, words[r]);
 		}
   	} 
   
