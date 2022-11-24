@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX 100
 
