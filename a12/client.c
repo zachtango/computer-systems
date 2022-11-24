@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     int key2 = ftok(getenv("HOME"), 2);
     int msgid2 = msgget(key2, 0666 | IPC_CREAT);
 
-    message.mesg_text = "Start";
+    strcpy(message.mesg_text, "Start");
     msgsnd(msgid, &message, sizeof(message), 0);
 
     while(1){
