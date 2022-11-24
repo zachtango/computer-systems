@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
         printf(message.mesg_text);
 
-        if(message.mesg_text[0] == "T"){
+        if(message.mesg_text[0] == 'T'){
             break;
         }
 
