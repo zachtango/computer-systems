@@ -78,6 +78,7 @@ int main()
 			int msgid2 = msgget(key2, 0666 | IPC_CREAT); // for writing
 			
 			message.mesg_text[0] = counter;
+			printf("counter: %d\n", counter);
 			msgsnd(msgid2, &message, sizeof(message), 0);
 
 			int key3 = ftok(getenv("HOME"), counter);
