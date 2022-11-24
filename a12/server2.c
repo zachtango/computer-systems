@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#define MAX 100
+
 // structure for message queue
 struct mesg_buffer {
     long mesg_type;
