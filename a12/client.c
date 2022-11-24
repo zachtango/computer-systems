@@ -37,11 +37,11 @@ int main(int argc, char *argv[])
     msgsnd(msgid, &message, sizeof(message), 0);
 
     while(1){
-      fgets(message.mesg_text, MAX, stdin);
 
       msgrcv(msgid2, &message, sizeof(message), 1, 0);
       printf("Data Received is : %s \n", message.mesg_text);
 
+      fgets(message.mesg_text, MAX, stdin);
       // msgsnd to send message
       msgsnd(msgid, &message, sizeof(message), 0);
 
