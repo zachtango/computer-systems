@@ -30,6 +30,9 @@ int main(int argc, char *argv[])
     msgid = msgget(key, 0666 | IPC_CREAT);
     printf("Send Key %d Msgid %d\n", key, msgid);
 
+    int key2 = ftok(getenv("HOME"), 2);
+    int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+
     while(1){
       fgets(message.mesg_text, MAX, stdin);
 
@@ -39,15 +42,14 @@ int main(int argc, char *argv[])
       // display the message
       printf("Data send is : %s\n", message.mesg_text);
 
-      int key2 = ftok(getenv("HOME"), 2);
-      int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+
       printf("Recv Key %d Msgid %d\n", key2, msgid2);
 
       msgrcv(msgid2, &message, sizeof(message), 1, 0);
       printf("Data Received is : %s \n", message.mesg_text);
-
-      msgctl(msgid2, IPC_RMID, NULL);
     }
+
+    msgctl(msgid2, IPC_RMID, NULL);
 
     return 0;
 }
