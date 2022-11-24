@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
         printf(message.mesg_text);
 
         if(message.mesg_text[0] == 'T'){
-            printf('\n');
+            printf("\n");
             break;
         }
 
