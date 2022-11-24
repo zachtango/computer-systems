@@ -83,12 +83,10 @@ int hangman(int msgidRcv, int msgidSnd, struct mesg_buffer *message, char* word)
 
 	sprintf(message->mesg_text, "(Guess) Enter a letter in the word %s > \n", display);
 
-	msgsnd(msgidSnd, message, sizeof(*message), 0);
+	// msgrcv to receive message
+	msgrcv(msgidRcv, message, sizeof(*message), 1, 0);
 
 	while (1) {
-    	// msgrcv to receive message
-    	msgrcv(msgidRcv, message, sizeof(*message), 1, 0);
-  
     	// display the message
     	printf("Guess Received is : %s \n", message->mesg_text);
 
@@ -96,6 +94,9 @@ int hangman(int msgidRcv, int msgidSnd, struct mesg_buffer *message, char* word)
 		sprintf(message->mesg_text, "%d %d", counter, counter+1);
     	msgsnd(msgidSnd, message, sizeof(*message), 0);
     	printf("Data Sent is : %s\n", message->mesg_text);
+
+    	// msgrcv to receive message
+    	msgrcv(msgidRcv, message, sizeof(*message), 1, 0);
 
 		counter += 2;
   	}
