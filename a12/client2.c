@@ -50,6 +50,9 @@ int main(int argc, char *argv[])
 
         fgets(message.mesg_text, MAX, stdin);
         msgsnd(msgid2, &message, sizeof(message), 0);
+
+        msgrcv(msgid2, &message, sizeof(message), 1, 0);
+        printf("Data Received is : %s \n", message.mesg_text);
     }
 
 	//delete the message queue since we are done!

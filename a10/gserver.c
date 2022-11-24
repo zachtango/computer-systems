@@ -146,7 +146,6 @@ int hangman(FILE* serverfp, FILE* clientfp, char* word){
 	char display[n + 1];
 	printf("%s %d\n", word, n);
 
-
 	for(int i = 0; i < n; i++)
 		display[i] = '*';
 
