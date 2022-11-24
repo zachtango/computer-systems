@@ -36,17 +36,16 @@ int main(int argc, char *argv[])
     while(1){
       fgets(message.mesg_text, MAX, stdin);
 
+      msgrcv(msgid2, &message, sizeof(message), 1, 0);
+      printf("Data Received is : %s \n", message.mesg_text);
+
       // msgsnd to send message
       msgsnd(msgid, &message, sizeof(message), 0);
 
       // display the message
       printf("Data send is : %s\n", message.mesg_text);
 
-
       printf("Recv Key %d Msgid %d\n", key2, msgid2);
-
-      msgrcv(msgid2, &message, sizeof(message), 1, 0);
-      printf("Data Received is : %s \n", message.mesg_text);
     }
 
     msgctl(msgid2, IPC_RMID, NULL);

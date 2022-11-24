@@ -18,6 +18,8 @@ struct mesg_buffer {
 char *words[MAXWORDS];
 int numWords = 0;
 
+int hangman(int msgidRcv, int msgidSnd, struct mesg_buffer *message, char *word);
+
 int main()
 {
 	char line[MAXLEN];
@@ -61,24 +63,40 @@ int main()
 	int key2 = ftok(getenv("HOME"), 2);
 	int msgid2 = msgget(key2, 0666 | IPC_CREAT);
 
-	while (1) {
-		
-    	// msgrcv to receive message
-    	msgrcv(msgid, &message, sizeof(message), 1, 0);
-    	// // to destroy the message queue
-    	// msgctl(msgid, IPC_RMID, NULL);
-  
-    	// display the message
-    	printf("Data Received is : %s \n", message.mesg_text);
 
-		//assign dedicated project #s for communication to client
+	hangman(msgid, msgid2);
 
-		sprintf(message.mesg_text, "%d %d", counter, counter+1);
-    	msgsnd(msgid2, &message, sizeof(message), 0);
-    	printf("Data Sent is : %s\n", message.mesg_text);
-
-		counter += 2;
-  	} 
+	msgctl(msgid, IPC_RMID, NULL);
   
     return 0;
+}
+
+int hangman(int msgidRcv, int msgidSnd, struct mesg_buffer *message, char* word){
+	int n = strlen(word);
+	char display[n + 1];
+	printf("%s %d\n", word, n);
+
+	for(int i = 0; i < n; i++)
+		display[i] = '*';
+	
+	int counter = 0;
+
+	sprintf(message->mesg_text, "(Guess) Enter a letter in the word %s > \n", display);
+
+	msgsnd(msgidSnd, message, sizeof(*message), 0);
+
+	while (1) {
+    	// msgrcv to receive message
+    	msgrcv(msgidRcv, message, sizeof(*message), 1, 0);
+  
+    	// display the message
+    	printf("Guess Received is : %s \n", message->mesg_text);
+
+		//assign dedicated project #s for communication to client
+		sprintf(message->mesg_text, "%d %d", counter, counter+1);
+    	msgsnd(msgidSnd, message, sizeof(*message), 0);
+    	printf("Data Sent is : %s\n", message->mesg_text);
+
+		counter += 2;
+  	}
 }
