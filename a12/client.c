@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
 
       msgrcv(msgid2, &message, sizeof(message), 1, 0);
       printf("Data Received is : %s \n", message.mesg_text);
-    }
 
-    msgctl(msgid2, IPC_RMID, NULL);
+      msgctl(msgid2, IPC_RMID, NULL);
+    }
 
     return 0;
 }
