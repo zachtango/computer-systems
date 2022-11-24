@@ -70,10 +70,11 @@ int main()
     	msgctl(msgid, IPC_RMID, NULL);
   
     	// display the message
-    	printf("Data Received is : %s \n", message.mesg_text);
+    	// printf("Data Received is : %s \n", message.mesg_text);
 		int clientPid = atoi(message.mesg_text);
 
 		if(fork() == 0){
+			printf("Client connected %d\n", clientPid);
 			srand(getpid() + time(NULL) + getuid());
 
 			//use clientPid to come up with key & msgid to respond
@@ -81,7 +82,7 @@ int main()
 			int msgid2 = msgget(key2, 0666 | IPC_CREAT); // for writing
 			
 			message.mesg_text[0] = counter;
-			printf("counter: %d\n", counter);
+			// printf("counter: %d\n", counter);
 			msgsnd(msgid2, &message, sizeof(message), 0);
 
 			int key3 = ftok(getenv("HOME"), counter);
@@ -122,11 +123,11 @@ int hangman(int msgidRead, int msgidWrite, char *word){
 	while(hidden != 0){
 		sprintf(message.mesg_text, "(Guess) Enter a letter in the word %s > ", display);
 		msgsnd(msgidWrite, &message, sizeof(message), 0);
-		printf("Data Sent is : %s\n", message.mesg_text);
+		// printf("Data Sent is : %s\n", message.mesg_text);
 
 		msgrcv(msgidRead, &message, sizeof(message), 1, 0);
 
-		printf("Data Received is : %s \n", message.mesg_text);
+		// printf("Data Received is : %s \n", message.mesg_text);
 
 		char guess = message.mesg_text[0];
 
