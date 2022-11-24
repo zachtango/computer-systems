@@ -19,7 +19,7 @@ struct mesg_buffer {
 char *words[100000];
 int numWords;
 
-int hangman(int msgid2, char *word);
+int hangman(int msgidRead, int msgidWrite, char *word);
 
 int main()
 {
