@@ -6,6 +6,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <string.h>
 
 #define MAX 100
 
@@ -15,7 +16,10 @@ struct mesg_buffer {
     char mesg_text[MAX];
 } message;
 
+char *words[100000];
 int numWords;
+
+int hangman(int msgid2, char *word);
 
 int main()
 {
