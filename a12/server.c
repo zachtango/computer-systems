@@ -79,10 +79,11 @@ int hangman(int msgidRcv, int msgidSnd, struct mesg_buffer *message, char* word)
 	for(int i = 0; i < n; i++)
 		display[i] = '*';
 
-	sprintf(message->mesg_text, "(Guess) Enter a letter in the word %s > \n", display);
 
 	// msgrcv to receive message
 	msgrcv(msgidRcv, message, sizeof(*message), 1, 0);
+
+	sprintf(message->mesg_text, "(Guess) Enter a letter in the word %s > \n", display);
 
 	while (1) {
 		//assign dedicated project #s for communication to client
