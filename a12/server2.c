@@ -86,11 +86,8 @@ int main()
 
 			counter += 1;
 
-			while(1){
-				// hangman goes here
-				char* word = "test";
-				hangman(msgid3, msgid2, word);
-			}
+			char* word = "test";
+			hangman(msgid3, msgid2, word);
 		}
   	} 
   
