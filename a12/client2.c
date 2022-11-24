@@ -41,15 +41,19 @@ int main(int argc, char *argv[])
 
 	//unique key based on client pid
 	int key2 = ftok(getenv("HOME"), pid);
-    int msgid2 = msgget(key2, 0666 | IPC_CREAT);
-  	printf("Recv Key %d Msgid %d\n", key2, msgid2);
+    int msgid2 = msgget(key2, 0666 | IPC_CREAT); // for reading
+
+    msgrcv(msgid2, &message, sizeof(message), 1, 0);
+
+    int key3 = ftok(getenv("HOME"), (int) message.mesg_text[0]);
+    int msgid3 = msgget(key3, 0666 | IPC_CREAT); // for writing
 
     while(1){
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
         printf("Data Received is : %s \n", message.mesg_text);
 
         fgets(message.mesg_text, MAX, stdin);
-        msgsnd(msgid2, &message, sizeof(message), 0);
+        msgsnd(msgid3, &message, sizeof(message), 0);
 
         msgrcv(msgid2, &message, sizeof(message), 1, 0);
         printf("Data Received is : %s \n", message.mesg_text);

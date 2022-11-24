@@ -56,7 +56,7 @@ int main()
     // ftok to generate unique key - main server
     key = ftok(getenv("HOME"), 1);
   
-  	int counter=3;
+  	int counter = 2;
 
 	while (1) {
     	// msgget creates a message queue and returns identifier
@@ -75,12 +75,20 @@ int main()
 		if(fork() == 0){
 			//use clientPid to come up with key & msgid to respond
 			int key2 = ftok(getenv("HOME"), clientPid);
-			int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+			int msgid2 = msgget(key2, 0666 | IPC_CREAT); // for writing
 			
+			message.mesg_text[0] = counter;
+			msgsnd(msgid2, &message, sizeof(message), 0);
+
+			int key3 = ftok(getenv("HOME"), counter);
+			int msgid3 = msgget(key3, 0666 | IPC_CREAT); // for reading
+
+			counter += 1;
+
 			while(1){
 				// hangman goes here
 				char* word = "test";
-				hangman(msgid2, word);
+				hangman(msgid2, msgid3, word);
 			}
 		}
   	} 
@@ -89,7 +97,7 @@ int main()
 }
 
 
-int hangman(int msgid2, char *word){
+int hangman(int msgidRead, int msgidWrite, char *word){
 	int n = strlen(word);
 	char display[n + 1];
 
@@ -103,10 +111,10 @@ int hangman(int msgid2, char *word){
 
 	while(hidden != 0){
 		sprintf(message.mesg_text, "(Guess) Enter a letter in the word %s > ", display);
-		msgsnd(msgid2, &message, sizeof(message), 0);
+		msgsnd(msgidWrite, &message, sizeof(message), 0);
 		printf("Data Sent is : %s\n", message.mesg_text);
 
-		msgrcv(msgid2, &message, sizeof(message), 1, 0);
+		msgrcv(msgidRead, &message, sizeof(message), 1, 0);
 
 		printf("Data Received is : %s \n", message.mesg_text);
 
@@ -133,7 +141,7 @@ int hangman(int msgid2, char *word){
 			wrongGuesses += 1;
 		}
 
-		msgsnd(msgid2, &message, sizeof(message), 0);
+		msgsnd(msgidWrite, &message, sizeof(message), 0);
 
 	}
 }
