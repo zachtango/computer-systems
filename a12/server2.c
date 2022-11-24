@@ -89,7 +89,7 @@ int main()
 			while(1){
 				// hangman goes here
 				char* word = "test";
-				hangman(msgid2, msgid3, word);
+				hangman(msgid3, msgid2, word);
 			}
 		}
   	} 
