@@ -54,23 +54,25 @@ int main()
   
   	int counter=3;
 
-	while (1) {
-    	// msgget creates a message queue and returns identifier
-    	msgid = msgget(key, 0666 | IPC_CREAT);
-  		printf("Key %d Msgid %d\n", key, msgid);
+	// msgget creates a message queue and returns identifier
+	msgid = msgget(key, 0666 | IPC_CREAT);
+	printf("Key %d Msgid %d\n", key, msgid);
 
+	int key2 = ftok(getenv("HOME"), 2);
+	int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+
+	while (1) {
 		
     	// msgrcv to receive message
     	msgrcv(msgid, &message, sizeof(message), 1, 0);
-    	// to destroy the message queue
-    	msgctl(msgid, IPC_RMID, NULL);
+    	// // to destroy the message queue
+    	// msgctl(msgid, IPC_RMID, NULL);
   
     	// display the message
     	printf("Data Received is : %s \n", message.mesg_text);
 
 		//assign dedicated project #s for communication to client
-		int key2 = ftok(getenv("HOME"), 2);
-    	int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+
 		sprintf(message.mesg_text, "%d %d", counter, counter+1);
     	msgsnd(msgid2, &message, sizeof(message), 0);
     	printf("Data Sent is : %s\n", message.mesg_text);
