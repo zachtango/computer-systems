@@ -60,13 +60,12 @@ int main()
 	msgid = msgget(key, 0666 | IPC_CREAT);
 	printf("Key %d Msgid %d\n", key, msgid);
 
-	int key2 = ftok(getenv("HOME"), 2);
-	int msgid2 = msgget(key2, 0666 | IPC_CREAT);
+
 
 	char *word = "test";
 	hangman(msgid, msgid2, &message, word);
 
-	msgctl(msgid, IPC_RMID, NULL);
+	// msgctl(msgid, IPC_RMID, NULL);
   
     return 0;
 }

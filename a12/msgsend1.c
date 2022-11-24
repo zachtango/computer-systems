@@ -4,7 +4,25 @@
 #include <sys/msg.h>
 #include <stdlib.h>
 #define MAX 100
-  
+
+/*
+message queue is linked list of msgs stored within the kernel and identified by msg q id
+new q created or an existing q opened by msgget()
+
+new msgs added to end of q by msgsend()
+
+msgs fethed from a queue using msgrcv()
+
+one main queue (server) for handling client requests to start game
+
+client wants to start game --> server creates a queue fro the client
+  sends the client the info
+  starts hangman game on that queue (fork)
+
+
+
+*/
+
 // structure for message queue: type and variable defined together!
 struct mesg_buffer {
     long mesg_type;

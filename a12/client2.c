@@ -13,7 +13,7 @@
 // structure for message queue
 struct mesg_buffer {
     long mesg_type;
-    char mesg_text[100];
+    char mesg_text[MAX];
 } message;
   
 int main(int argc, char *argv[])
@@ -44,8 +44,13 @@ int main(int argc, char *argv[])
     int msgid2 = msgget(key2, 0666 | IPC_CREAT);
   	printf("Recv Key %d Msgid %d\n", key2, msgid2);
 
-    msgrcv(msgid2, &message, sizeof(message), 1, 0);
-    printf("Data Received is : %s \n", message.mesg_text);
+    while(1){
+        msgrcv(msgid2, &message, sizeof(message), 1, 0);
+        printf("Data Received is : %s \n", message.mesg_text);
+
+        fgets(message.mesg_text, MAX, stdin);
+        msgsnd(msgid2, &message, sizeof(message), 0);
+    }
 
 	//delete the message queue since we are done!
 	//no need to leave the queues OPEN in the system.
