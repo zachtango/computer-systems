@@ -73,6 +73,8 @@ int main()
 		int clientPid = atoi(message.mesg_text);
 
 		if(fork() == 0){
+			srand(getpid() + time(NULL) + getuid());
+
 			//use clientPid to come up with key & msgid to respond
 			int key2 = ftok(getenv("HOME"), clientPid);
 			int msgid2 = msgget(key2, 0666 | IPC_CREAT); // for writing
