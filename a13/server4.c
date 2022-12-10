@@ -155,4 +155,7 @@ int hangman(int connfd, char* word){
 		printf("%s\n", sndMsg);
 		write(connfd, sndMsg, strlen(sndMsg) + 1);
 	}
+
+	sprintf(sndMsg, "The word was %s. It took you %d guesses.", word, wrongGuesses);
+	write(connfd, sndMsg, strlen(sndMsg) + 1);
 }
