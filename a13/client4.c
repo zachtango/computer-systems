@@ -9,10 +9,13 @@
 #include <errno.h>
 #include <arpa/inet.h> 
 
+#define MAXLEN 1000
+
 int main(int argc, char *argv[])
 {
+
     int sockfd = 0, n = 0;
-    char recvBuff[1024];
+    char recvBuff[MAXLEN];
     struct sockaddr_in serv_addr; 
 
     if(argc != 3)
@@ -46,31 +49,25 @@ int main(int argc, char *argv[])
        return 1;
     } 
 
+    read(sockfd, recvBuff, sizeof(recvBuff)-1);
+    printf("%s", recvBuff);
+
 	//read a line from the user and send it to the server
 	//read a line from the server and display it
 	while (fgets(recvBuff, sizeof(recvBuff), stdin) > 0) {
 		write(sockfd, recvBuff, strlen(recvBuff)+1);
+
 		if ((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0) {
         	recvBuff[n] = 0;
 			puts(recvBuff);
 		} else
 			break;
-	}
-	/*
-    while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
-    {
-        recvBuff[n] = 0;
-        if(fputs(recvBuff, stdout) == EOF)
-        {
-            printf("\n Error : Fputs error\n");
-        }
-    } 
 
-    if(n < 0)
-    {
-        printf("\n Read error \n");
-    } 
-	*/
+        read(sockfd, recvBuff, sizeof(recvBuff)-1);
+        printf("%s", recvBuff);
+        read(sockfd, recvBuff, sizeof(recvBuff)-1);
+        printf("%s", recvBuff);
+	}
 
     return 0;
 }

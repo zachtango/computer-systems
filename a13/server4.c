@@ -9,6 +9,12 @@
 #include <sys/types.h>
 #include <time.h> 
 
+#define MAXWORDS 100000
+#define MAXLEN 1000
+
+char *words[MAXWORDS];
+int numWords = 0;
+
 void pexit(char *errmsg) {
 	fprintf(stderr, "%s\n", errmsg);
 	exit(1);
@@ -16,6 +22,30 @@ void pexit(char *errmsg) {
 
 int main(int argc, char *argv[])
 {
+	char line[MAXLEN];
+
+	FILE *fp = fopen("dictionary.txt", "r");
+	if(!fp){
+		puts("dictionary.txt cannot be opened for reading.");
+		exit(1);
+	}
+
+	int i = 0;
+	// read one line at a time, allocate memory, then copy the line
+	while (fgets(line, MAXLEN, fp)) {
+		char *c = line + strlen(line) - 1;
+		if(*c == '\n') {
+			*c = '\0';
+		}
+		
+		words[i] = (char *) malloc (strlen(line) + 1);
+		strcpy(words[i], line);
+		i += 1;
+	}
+
+	numWords = i;
+	printf("%d words were read\n", numWords);
+
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr; 
 
@@ -49,28 +79,78 @@ int main(int argc, char *argv[])
 		printf("connected to client %d.\n", counter);
 		if (fork() > 0)
 			continue;
-		//hardcode to send "ls" command output 
-        // snprintf(buffer, sizeof(buffer), "Client %d: %.24s\r\n", counter, ctime(&ticks));
-		//FILE *fcommand = popen("ls -l", "r");
-		
-		int n;
-		//get the output of that command and forward it to client
-		// while ((n = fread(buffer, 1, sizeof(buffer), fcommand)) > 0)
-        // 	write(connfd, buffer, n); 
 
-		//read a line from the client and write it back to the client
-		while ((n = read(connfd, buffer, sizeof(buffer))) > 0) {
-			//do something based on buffer and send that instead?
-			//simply increment each character! 
-			for(int i=0; i<n; i++)
-				buffer[i]++;
-			write(connfd, buffer, n);
+		// rand word
+		srand(getpid() + time(NULL) + getuid());
+		int r = (rand() * rand()) % numWords;
+		while(r < 0 || r >= numWords){
+			r = (rand() * rand()) % numWords;
 		}
+		printf("Random word %s\n", words[r]);
+
+		hangman(connfd, char* word);
 
 		printf("served client %d.\n", counter);
-		//pclose(fcommand);
+		
         close(connfd);
-        //sleep(1);
+		
 		exit(0); //this is child server process. It is done!
      }
+}
+
+int hangman(int connfd, char* word){
+	int wrongGuesses = 0;
+	int m = strlen(word);
+	char display[m + 1];
+	printf("%s %d\n", word, m);
+
+	for(int i = 0; i < m; i++)
+		display[i] = '*';
+
+	int hidden = m;
+
+	char sndMsg[MAXLEN];
+	sprintf(sndMsg, "(Guess) Enter a letter in the word %s > \n", display);
+
+	write(connfd, sndMsg, strlen(sndMsg));
+
+	char buffer[MAXLEN];
+	int n;
+	//read a line from the client
+	while ((n = read(connfd, buffer, sizeof(buffer) - 1)) > 0) {
+		char guess = buffer[0];
+
+		printf("char: %c\n", guess);
+
+		int wrong = 1;
+		for(int i = 0; i < n; i++){
+			if(guess == word[i]){
+				wrong = 0;
+
+				if(guess == display[i]){
+					strcpy(sndMsg, "  is already in the word.\n\0");
+					sndMsg[0] = guess;
+					break;
+				}
+
+				strcpy(sndMsg, "Good guess!\n\0");
+				display[i] = guess;
+				hidden -= 1;
+			}
+		}
+
+		if(wrong){
+			strcpy(sndMsg, "  is not in the word.\n\0");
+			sndMsg[0] = guess;
+			wrongGuesses += 1;
+		}
+
+		if(hidden == 0) break;
+		
+		write(connfd, sndMsg, strlen(sndMsg));
+		
+		sprintf(sndMsg, "(Guess) Enter a letter in the word %s > \n", display);
+
+		write(connfd, sndMsg, strlen(sndMsg));
+	}
 }
