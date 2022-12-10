@@ -106,7 +106,7 @@ int hangman(int connfd, char* word){
 
 	for(int i = 0; i < m; i++)
 		display[i] = '*';
-	printf("%s\n", display);
+	display[m] = '\0';
 	int hidden = m;
 
 	char sndMsg[MAXLEN];
