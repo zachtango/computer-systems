@@ -122,9 +122,9 @@ int hangman(int connfd, char* word){
 
 		printf("char: %c\n", guess);
 
+		printf("%s %s\n", word, display);
 		int wrong = 1;
 		for(int i = 0; i < n; i++){
-			printf("%s %s\n", word, display);
 			if(guess == word[i]){
 				wrong = 0;
 
