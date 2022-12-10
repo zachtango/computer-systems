@@ -55,7 +55,6 @@ int main(int argc, char *argv[])
 	//read a line from the user and send it to the server
 	//read a line from the server and display it
 	while (fgets(recvBuff, sizeof(recvBuff), stdin) > 0) {
-        printf("bruh\n");
         write(sockfd, recvBuff, strlen(recvBuff)+1);
 
 		if ((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0) {
@@ -63,6 +62,9 @@ int main(int argc, char *argv[])
 			puts(recvBuff);
 		} else
 			break;
+
+        if(recvBuff[0] == 'T')
+            break;
     }
 
     return 0;
