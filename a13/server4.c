@@ -147,10 +147,10 @@ int hangman(int connfd, char* word){
 
 		if(hidden == 0) break;
 		
-		write(connfd, sndMsg, strlen(sndMsg));
+		write(connfd, sndMsg, strlen(sndMsg) + 1);
 
 		sprintf(sndMsg, "(Guess) Enter a letter in the word %s >", display);
 
-		write(connfd, sndMsg, strlen(sndMsg));
+		write(connfd, sndMsg, strlen(sndMsg) + 1);
 	}
 }
