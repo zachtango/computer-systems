@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 
         read(sockfd, recvBuff, sizeof(recvBuff) - 1);
         printf("%s", recvBuff);
+        printf("test");
     }
 
     return 0;
