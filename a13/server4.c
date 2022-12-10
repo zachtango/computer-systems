@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 		}
 		printf("Random word %s\n", words[r]);
 
-		hangman(connfd, char* word);
+		hangman(connfd, words[r]);
 
 		printf("served client %d.\n", counter);
 		
@@ -148,7 +148,7 @@ int hangman(int connfd, char* word){
 		if(hidden == 0) break;
 		
 		write(connfd, sndMsg, strlen(sndMsg));
-		
+
 		sprintf(sndMsg, "(Guess) Enter a letter in the word %s > \n", display);
 
 		write(connfd, sndMsg, strlen(sndMsg));
