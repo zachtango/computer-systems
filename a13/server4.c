@@ -128,19 +128,19 @@ int hangman(int connfd, char* word){
 				wrong = 0;
 
 				if(guess == display[i]){
-					strcpy(sndMsg, "  is already in the word.\n\0");
+					strcpy(sndMsg, "  is already in the word.");
 					sndMsg[0] = guess;
 					break;
 				}
 
-				strcpy(sndMsg, "Good guess!\n\0");
+				strcpy(sndMsg, "Good guess!");
 				display[i] = guess;
 				hidden -= 1;
 			}
 		}
 
 		if(wrong){
-			strcpy(sndMsg, "  is not in the word.\n\0");
+			strcpy(sndMsg, "  is not in the word.");
 			sndMsg[0] = guess;
 			wrongGuesses += 1;
 		}
@@ -149,7 +149,7 @@ int hangman(int connfd, char* word){
 		
 		write(connfd, sndMsg, strlen(sndMsg));
 
-		sprintf(sndMsg, "(Guess) Enter a letter in the word %s > \n", display);
+		sprintf(sndMsg, "(Guess) Enter a letter in the word %s >", display);
 
 		write(connfd, sndMsg, strlen(sndMsg));
 	}
