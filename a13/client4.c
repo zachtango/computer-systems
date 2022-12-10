@@ -63,10 +63,6 @@ int main(int argc, char *argv[])
 			puts(recvBuff);
 		} else
 			break;
-
-        read(sockfd, recvBuff, sizeof(recvBuff) - 1);
-        printf("%s %d", recvBuff, strlen(recvBuff));
-        printf("test");
     }
 
     return 0;
