@@ -64,11 +64,8 @@ int main(int argc, char *argv[])
 		} else
 			break;
 
-        while(read(sockfd, recvBuff, sizeof(recvBuff) - 1) <= 0){}
+        read(sockfd, recvBuff, sizeof(recvBuff) - 1);
         printf("%s", recvBuff);
-        while(read(sockfd, recvBuff, sizeof(recvBuff) - 1) <= 0){}
-        printf("%s", recvBuff);
-        printf("bruh2\n");
     }
 
     return 0;
