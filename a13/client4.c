@@ -60,8 +60,7 @@ int main(int argc, char *argv[])
 		if ((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0) {
         	recvBuff[n] = 0;
 			puts(recvBuff);
-		} else
-			break;
+		}
 
         if(recvBuff[0] == 'T')
             break;

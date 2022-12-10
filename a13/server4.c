@@ -152,7 +152,6 @@ int hangman(int connfd, char* word){
 		sprintf(cat, "(Guess) Enter a letter in the word %s >", display);
 		strcat(sndMsg, cat);
 
-		printf("%s\n", sndMsg);
 		write(connfd, sndMsg, strlen(sndMsg) + 1);
 	}
 
