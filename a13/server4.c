@@ -110,7 +110,7 @@ int hangman(int connfd, char* word){
 	int hidden = m;
 
 	char sndMsg[MAXLEN];
-	sprintf(sndMsg, "(Guess) Enter a letter in the word %s > \n", display);
+	sprintf(sndMsg, "(Guess) Enter a letter in the word %s >", display);
 
 	write(connfd, sndMsg, strlen(sndMsg) + 1);
 
